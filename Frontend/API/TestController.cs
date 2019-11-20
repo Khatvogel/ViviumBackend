@@ -21,7 +21,8 @@ namespace Frontend.API
             _gameRepository = gameRepository;
         }
 
-        public IEnumerable<string> Index()
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
             return new[] {"Test", "Test", "Test"};
         }

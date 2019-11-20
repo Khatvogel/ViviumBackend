@@ -13,41 +13,41 @@ namespace Backend.Repository
     /// <typeparam name="T"></typeparam>
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        public readonly ApplicationDbContext DataContext;
+        private readonly ApplicationDbContext _dataContext;
 
         protected BaseRepository(ApplicationDbContext dataContext)
         {
-            DataContext = dataContext;
+            _dataContext = dataContext;
         }
 
         public virtual async Task<T> GetAsync(int id)
         {
-            return await DataContext.Set<T>().FindAsync(id);
+            return await _dataContext.Set<T>().FindAsync(id);
         }
 
         public virtual async Task<IReadOnlyList<T>> ListAllAsync()
         {
-            return await DataContext.Set<T>().ToListAsync();
+            return await _dataContext.Set<T>().ToListAsync();
         }
 
         public virtual async Task<T> AddAsync(T entity)
         {
-            await DataContext.Set<T>().AddAsync(entity);
-            await DataContext.SaveChangesAsync();
+            await _dataContext.Set<T>().AddAsync(entity);
+            await _dataContext.SaveChangesAsync();
 
             return entity;
         }
 
         public virtual async Task UpdateAsync(T entity)
         {
-            DataContext.Entry(entity).State = EntityState.Modified;
-            await DataContext.SaveChangesAsync();
+            _dataContext.Entry(entity).State = EntityState.Modified;
+            await _dataContext.SaveChangesAsync();
         }
 
         public virtual async Task DeleteAsync(T entity)
         {
-            DataContext.Set<T>().Remove(entity);
-            await DataContext.SaveChangesAsync();
+            _dataContext.Set<T>().Remove(entity);
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

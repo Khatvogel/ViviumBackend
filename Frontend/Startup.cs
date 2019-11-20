@@ -1,10 +1,8 @@
 using Backend.Data;
-using Backend.Entities;
 using Backend.Interfaces;
 using Backend.Interfaces.Firebase;
 using Backend.Repository;
 using Backend.Repository.Firebase;
-using Frontend.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace Frontend
 {
@@ -34,6 +33,7 @@ namespace Frontend
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddControllers();
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"}); });
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IFireBaseGameRepository, FireBaseGameRepository>();
         }
@@ -60,6 +60,12 @@ namespace Frontend
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
