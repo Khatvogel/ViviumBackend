@@ -1,0 +1,17 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">List of games</h1>
+    <ul class="list-group list-group-horizontal">
+        @{
+            foreach (var game in Model.Games)
+            {
+                <li class="list-group-item"><p>@game.Name</p></li>
+            }
+        }
+    </ul>
+</div>
