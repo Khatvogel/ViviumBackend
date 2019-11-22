@@ -11,7 +11,7 @@ namespace Frontend.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private IFireBaseDeviceRepository _repository;
+        private readonly IFireBaseDeviceRepository _repository;
 
         public IndexModel(ILogger<IndexModel> logger, IFireBaseDeviceRepository repository)
         {

@@ -9,10 +9,9 @@ namespace Backend.Entities
     /// </summary>
     public class  ConnectedDevice
     {
+        public string Category { get; set; }
+        public DateTime LastOnline { get; set; }
         public string MacAddress { get; set; }
         public string Name { get; set; }
-        public DateTime LastOnline { get; set; }
-        
-        public string Category { get; set; }
     }
 }

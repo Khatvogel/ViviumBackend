@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Backend.Entities;
 using Backend.Interfaces.Firebase;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
+using Newtonsoft.Json;
 
 namespace Backend.Repository.Firebase
 {
@@ -11,7 +15,13 @@ namespace Backend.Repository.Firebase
     {
         private string _path;
         private IFirebaseClient _client;
+        private readonly HttpClient _httpClient;
+        private string _baseUrl = "https://vivium.firebaseio.com/";
 
+        protected FirebaseRepository(IHttpClientFactory httpClient)
+        {
+            _httpClient = httpClient.CreateClient();
+        }
         public void Initialize(string path)
         {
             _path = path;
@@ -22,6 +32,7 @@ namespace Backend.Repository.Firebase
             };
             
             _client = new FirebaseClient(config);
+            _baseUrl = $"{_baseUrl}/{path}.json";
         }
 
         public virtual async Task<T> SetAsync(T data)
@@ -38,8 +49,15 @@ namespace Backend.Repository.Firebase
 
         public virtual async Task<List<T>> GetListAsync()
         {
-            var response = await _client.GetAsync(_path);
-            return response.ResultAs<List<T>>();
+            var response = await _httpClient.GetAsync(_baseUrl);
+            var content = await response.Content.ReadAsStringAsync();
+            if (content.Equals("null"))
+            {
+                return new List<T>();
+            }
+
+            var result = JsonConvert.DeserializeObject<Dictionary<string, T>>(content).Values.ToList();
+            return result;
         }
 
         public virtual async Task<T> UpdateAsync(T data)
