@@ -11,7 +11,7 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-let gamesRef = firebase.database().ref('Game');
+let gamesRef = firebase.database().ref();
 
 gamesRef.on('value', function (snapshot) {
     $("#status-spinner").hide();
@@ -19,13 +19,12 @@ gamesRef.on('value', function (snapshot) {
     ul.empty();
 
     snapshot.forEach(function (childSnapshot) {
-        var childData = Object.values(childSnapshot.val());
+        let childData = Object.values(childSnapshot.val());
         console.log(childData);
         ul.append("<li class=\"list-group-item\">"
             + childData[0] + " - "
             + childData[1] + " - "
-            + childData[2] + " - "
-            + childData[3] + "</li>"
+            + childData[2] + "</li>"
         );
     });
 });

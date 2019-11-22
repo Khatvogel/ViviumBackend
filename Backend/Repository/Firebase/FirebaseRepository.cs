@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Backend.Entities;
 using Backend.Interfaces.Firebase;
 using FireSharp;
 using FireSharp.Config;
