@@ -16,11 +16,14 @@ namespace Backend.Data
         }
 
         //Met de onderstaande regel voeg je een nieuwe tabel toe aan de database
-        public DbSet<Game> Games { get; set; }
+        public DbSet<ConnectedDevice> ConnectedDevices { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<ConnectedDevice>()
+                .HasKey(c => c.MacAddress);
         }
     }
 }

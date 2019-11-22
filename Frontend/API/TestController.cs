@@ -14,11 +14,11 @@ namespace Frontend.API
     [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
-        private readonly IGameRepository _gameRepository;
+        private readonly IConnectedDeviceRepository _connectedDeviceRepository;
 
-        public TestController(IGameRepository gameRepository)
+        public TestController(IConnectedDeviceRepository connectedDeviceRepository)
         {
-            _gameRepository = gameRepository;
+            _connectedDeviceRepository = connectedDeviceRepository;
         }
 
         [HttpGet]
@@ -28,18 +28,16 @@ namespace Frontend.API
         }
 
         [HttpPost]
-        public IActionResult Create(int id)
+        public IActionResult Create(string mac)
         {
-            var game = new Game
+            var game = new ConnectedDevice
             {
-                Id = id,
-                Finished = false,
+                MacAddress = mac,
                 LastOnline = DateTime.Now,
-                MacAddress = Guid.NewGuid().ToString(),
                 Name = "Test"
             };
 
-            var result = _gameRepository.AddAsync(game);
+            var result = _connectedDeviceRepository.AddAsync(game);
             return new JsonResult(result);
         }
     }

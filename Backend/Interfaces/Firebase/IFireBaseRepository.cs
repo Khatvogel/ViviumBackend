@@ -12,7 +12,7 @@ namespace Backend.Interfaces.Firebase
         void Initialize(string path);
         Task<T> SetAsync(T data);
         Task<T> PushAsync(T data);
-        Task<List<T>> GetAsync();
+        Task<List<T>> GetListAsync();
         Task<T> UpdateAsync(T data);
     }
 }

@@ -24,6 +24,11 @@ namespace Backend.Repository
         {
             return await _dataContext.Set<T>().FindAsync(id);
         }
+        
+        public virtual async Task<T> GetAsync(string id)
+        {
+            return await _dataContext.Set<T>().FindAsync(id);
+        }
 
         public virtual async Task<IReadOnlyList<T>> ListAllAsync()
         {

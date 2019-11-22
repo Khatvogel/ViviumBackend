@@ -11,20 +11,20 @@ namespace Frontend.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private IFireBaseGameRepository _repository;
+        private IFireBaseDeviceRepository _repository;
 
-        public IndexModel(ILogger<IndexModel> logger, IFireBaseGameRepository repository)
+        public IndexModel(ILogger<IndexModel> logger, IFireBaseDeviceRepository repository)
         {
             _logger = logger;
             _repository = repository;
-            _repository.Initialize("Game");
+            _repository.Initialize("Device");
         }
         
-        [BindProperty] public List<Game> Games { get; set; }
+        [BindProperty] public List<ConnectedDevice> ConnectedDevices { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
-            Games = await _repository.GetAsync();
+            ConnectedDevices = await _repository.GetListAsync();
             return Page();
         }
     }

@@ -11,14 +11,21 @@
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-let gamesRef = firebase.database().ref();
+let gamesRef = firebase.database().ref('Game');
 
-gamesRef.on('value', function (data) {
+gamesRef.on('value', function (snapshot) {
     $("#status-spinner").hide();
-    let games = Object.values(data.val());
     let ul = $("#game-status");
     ul.empty();
-    games[0].forEach(function (game) {
-        ul.append("<li class=\"list-group-item\">" + game["Name"] + " - " + game["Status"] + "</li>");
+
+    snapshot.forEach(function (childSnapshot) {
+        var childData = Object.values(childSnapshot.val());
+        console.log(childData);
+        ul.append("<li class=\"list-group-item\">"
+            + childData[0] + " - "
+            + childData[1] + " - "
+            + childData[2] + " - "
+            + childData[3] + "</li>"
+        );
     });
-}); 
+});

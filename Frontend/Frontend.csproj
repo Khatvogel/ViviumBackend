@@ -5,11 +5,6 @@
         <UserSecretsId>aspnet-Frontend-47B7CEAA-FF14-4909-A6AD-F02250A27919</UserSecretsId>
     </PropertyGroup>
 
-
-    <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-
     <ItemGroup>
         <PackageReference Include="jQuery" Version="3.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />

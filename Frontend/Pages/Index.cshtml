@@ -5,12 +5,15 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">List of games</h1>
+    <h1 class="display-4">List of connected devices</h1>
     <ul class="list-group list-group-horizontal">
         @{
-            foreach (var game in Model.Games)
+            foreach (var device in Model.ConnectedDevices)
             {
-                <li class="list-group-item"><p>@game.Name</p></li>
+                <li class="list-group-item">
+                    <p>@device.Name</p>
+                    <p>@device.MacAddress</p>
+                </li>
             }
         }
     </ul>

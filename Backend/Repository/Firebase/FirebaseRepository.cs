@@ -36,7 +36,7 @@ namespace Backend.Repository.Firebase
             return response.ResultAs<T>();
         }
 
-        public virtual async Task<List<T>> GetAsync()
+        public virtual async Task<List<T>> GetListAsync()
         {
             var response = await _client.GetAsync(_path);
             return response.ResultAs<List<T>>();

@@ -3,7 +3,7 @@ using Backend.Interfaces.Firebase;
 
 namespace Backend.Repository.Firebase
 {
-    public class FireBaseGameRepository : FirebaseRepository<Game>, IFireBaseGameRepository
+    public class FireBaseDeviceRepository : FirebaseRepository<ConnectedDevice>, IFireBaseDeviceRepository
     {
     }
 }
