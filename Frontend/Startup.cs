@@ -38,7 +38,7 @@ namespace Frontend
             services.AddControllers();
             
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"}); });
-            services.AddHttpClient<IFireBaseDeviceRepository>();
+            services.AddHttpClient<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
             services.AddScoped<IConnectedDeviceRepository, ConnectedDeviceRepository>();
             services.AddScoped<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
         }
