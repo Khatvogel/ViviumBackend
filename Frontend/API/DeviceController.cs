@@ -1,41 +1,36 @@
-﻿using Backend.Entities;
-using Backend.Interfaces;
+using System.Threading.Tasks;
+using Backend.Entities;
+using Backend.Interfaces.Firebase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Frontend.API
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("devices")]
     public class DeviceController : Controller
     {
-        public DeviceController(IConnectedDeviceRepository repository)
+        private readonly IFireBaseDeviceRepository _fireBaseDeviceRepository;
+        
+        public DeviceController(IFireBaseDeviceRepository fireBaseDeviceRepository)
         {
-            _repository = repository;
+            _fireBaseDeviceRepository = fireBaseDeviceRepository;
+            _fireBaseDeviceRepository.Initialize("Device");
         }
-
-        private readonly IConnectedDeviceRepository _repository;
-
+        
         [HttpGet]
-        public IActionResult Get(string mac)
+        [Route("")]
+        public async Task<IActionResult> Get()
         {
-            var result = _repository.GetAsync(mac);
+            var result = await _fireBaseDeviceRepository.GetListAsync();
             return new JsonResult(result);
         }
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Post(ConnectedDevice device)
+        public async Task<IActionResult> Create(ConnectedDevice device)
         {
-            _repository.AddAsync(device);
-            return Ok(device);
-        }
-
-        [HttpPatch]
-        [Route("ping")]
-        public IActionResult Patch(ConnectedDevice device)
-        {
-            _repository.UpdateAsync(device);
-            return Ok(device);
+            var result = await _fireBaseDeviceRepository.PushAsync(device);
+            return Ok(result);
         }
     }
 }
