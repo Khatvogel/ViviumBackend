@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Backend.Entities;
+using Backend.Interfaces;
 using Backend.Interfaces.Firebase;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -13,26 +14,25 @@ namespace Frontend.API
     [Route("devices")]
     public class DeviceController : Controller
     {
-        private readonly IFireBaseDeviceRepository _fireBaseDeviceRepository;
+        private IConnectedDeviceRepository _repository;
 
-        public DeviceController(IFireBaseDeviceRepository fireBaseDeviceRepository)
+        public DeviceController(IConnectedDeviceRepository repository)
         {
-            _fireBaseDeviceRepository = fireBaseDeviceRepository;
-            _fireBaseDeviceRepository.Initialize("Device");
+            _repository = repository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string id)
         {
-            var result = await _fireBaseDeviceRepository.GetListAsync();
-            return new JsonResult(result);
+            var result = await _repository.GetAsync(id);
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Create(ConnectedDevice device)
         {
-            var result = await _fireBaseDeviceRepository.PushAsync(device);
+            var result = await _repository.AddAsync(device);
             return Ok(result);
         }
     }
