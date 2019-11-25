@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Backend.Data;
 using Backend.Interfaces;
@@ -32,7 +33,8 @@ namespace Backend.Repository
 
         public virtual async Task<IReadOnlyList<T>> ListAllAsync()
         {
-            return await _dataContext.Set<T>().ToListAsync();
+            var result = await _dataContext.Set<T>().ToListAsync();
+            return result.Any() ? result : new List<T>();
         }
 
         public virtual async Task<T> AddAsync(T entity)
@@ -53,6 +55,11 @@ namespace Backend.Repository
         {
             _dataContext.Set<T>().Remove(entity);
             await _dataContext.SaveChangesAsync();
+        }
+
+        public void Detach(T entity)
+        {
+            _dataContext.Entry(entity).State = EntityState.Detached;
         }
     }
 }

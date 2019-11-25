@@ -14,5 +14,6 @@ namespace Backend.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<IReadOnlyList<T>> ListAllAsync();
+        void Detach(T entity);
     }
 }

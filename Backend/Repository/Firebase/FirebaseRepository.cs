@@ -21,6 +21,7 @@ namespace Backend.Repository.Firebase
         {
             _httpClient = httpClient.CreateClient();
         }
+
         public void Initialize(string path)
         {
             _path = path;
@@ -29,7 +30,7 @@ namespace Backend.Repository.Firebase
                 AuthSecret = "",
                 BasePath = "https://vivium.firebaseio.com/"
             };
-            
+
             _client = new FirebaseClient(config);
             _baseUrl = $"{_baseUrl}/{path}.json";
         }
@@ -50,13 +51,9 @@ namespace Backend.Repository.Firebase
         {
             var response = await _httpClient.GetAsync(_baseUrl);
             var content = await response.Content.ReadAsStringAsync();
-            if (content.Equals("null"))
-            {
-                return new List<T>();
-            }
-
-            var result = JsonConvert.DeserializeObject<Dictionary<string, T>>(content).Values.ToList();
-            return result;
+            return content.Equals("null")
+                ? new List<T>()
+                : JsonConvert.DeserializeObject<Dictionary<string, T>>(content).Values.ToList();
         }
 
         public virtual async Task<T> UpdateAsync(T data)

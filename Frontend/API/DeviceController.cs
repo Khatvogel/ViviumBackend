@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -14,7 +15,7 @@ namespace Frontend.API
     [Route("devices")]
     public class DeviceController : Controller
     {
-        private IConnectedDeviceRepository _repository;
+        private readonly IConnectedDeviceRepository _repository;
 
         public DeviceController(IConnectedDeviceRepository repository)
         {
@@ -30,10 +31,22 @@ namespace Frontend.API
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Create(ConnectedDevice device)
+        public async Task<IActionResult> Post(ConnectedDevice device)
         {
-            var result = await _repository.AddAsync(device);
-            return Ok(result);
+            device.LastOnline = DateTime.UtcNow.AddHours(1);
+            var result = await _repository.GetAsync(device.MacAddress);
+            
+            //update
+            if (result != null)
+            {
+                _repository.Detach(result);
+                await _repository.UpdateAsync(device);
+                return Ok("Device already exists.");
+            }
+
+            //post
+            await _repository.AddAsync(device);
+            return Ok("Device successfully added.");
         }
     }
 }

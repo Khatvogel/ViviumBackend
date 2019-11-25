@@ -3,8 +3,6 @@ using Backend.Interfaces;
 using Backend.Interfaces.Firebase;
 using Backend.Repository;
 using Backend.Repository.Firebase;
-using Frontend.API;
-using Frontend.API.Deprecated;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -29,15 +27,17 @@ namespace Frontend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddRazorPages();
             services.AddControllers();
-            
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"}); });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"});
+            });
             services.AddHttpClient<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
             services.AddScoped<IConnectedDeviceRepository, ConnectedDeviceRepository>();
             services.AddScoped<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
@@ -46,7 +46,7 @@ namespace Frontend
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -67,10 +67,7 @@ namespace Frontend
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
             app.UseEndpoints(endpoints =>
             {

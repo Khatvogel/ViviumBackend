@@ -6,7 +6,7 @@
 
 <div class="text-center">
     <h1 class="display-4">List of connected devices</h1>
-    <ul class="list-group list-group-horizontal">
+    <ul class="list-group list-group">
         @{
             if (Model.ConnectedDevices == null)
             {
@@ -19,8 +19,9 @@
                 foreach (var device in Model.ConnectedDevices)
                 {
                     <li class="list-group-item">
-                        <p>@device.Name</p>
-                        <p>@device.MacAddress</p>
+                        <p>Device name: @device.Name</p>
+                        <p>Mac address: @device.MacAddress</p>
+                        <p>Last online: @device.LastOnline</p>
                     </li>
                 }
             }

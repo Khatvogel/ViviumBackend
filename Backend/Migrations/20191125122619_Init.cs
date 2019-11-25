@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Backend.Migrations
 {
-    public partial class UpdatedConnectedDevices : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,9 +51,9 @@ namespace Backend.Migrations
                 columns: table => new
                 {
                     MacAddress = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Category = table.Column<string>(nullable: true),
                     LastOnline = table.Column<DateTime>(nullable: false),
-                    Category = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
