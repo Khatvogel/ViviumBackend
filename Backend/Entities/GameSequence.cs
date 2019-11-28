@@ -5,6 +5,6 @@
         public string MacAddress { get; set; }
         public int Order { get; set; }
         
-        public Device Device { get; set; }
+        public virtual Device Device { get; set; }
     }
 }

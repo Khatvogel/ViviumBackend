@@ -10,7 +10,7 @@ namespace Frontend.ViewModels
 
         public RegisterDeviceResponseViewModel(Device device)
         {
-            this.Device = device;
+            Device = device;
         }
     }
 }

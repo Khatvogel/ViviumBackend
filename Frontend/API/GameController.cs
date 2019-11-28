@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
+using Frontend.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Frontend.API
 {
@@ -23,7 +24,14 @@ namespace Frontend.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _attemptRepository.GetListAsync());
+            var jsonResult = JsonConvert.SerializeObject(await _attemptRepository.GetListAsync(),
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+
+            return Ok(jsonResult);
         }
 
         [HttpGet]
@@ -43,14 +51,6 @@ namespace Frontend.API
             {
                 return NoContent();
             }
-
-//            await _attemptDeviceRepository.AddAsync(new AttemptDevice
-//            {
-//                DeviceMacAddress = "84:0D:8E:8D:46:7E",
-//                AttemptId = lastAttempt.Id,
-//                Started = true,
-//                StartedAt = DateTime.Now
-//            });
 
             var device = lastAttempt.AttemptDevices.Find(x => x.DeviceMacAddress == macAddress);
             return Ok(device);

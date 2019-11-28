@@ -9,9 +9,9 @@ namespace Backend.Entities
         public bool Started { get; set; }
         public DateTime StartedAt { get; set; }
         public bool Finished { get; set; }
-        public DateTime FinshedAt { get; set; }
+        public DateTime FinishedAt { get; set; }
 
-        public Attempt Attempt { get; set; }
-        public Device Device { get; set; }
+        public virtual Attempt Attempt { get; set; }
+        public virtual Device Device { get; set; }
     }
 }

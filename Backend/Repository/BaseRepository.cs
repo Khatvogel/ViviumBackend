@@ -16,7 +16,7 @@ namespace Backend.Repository
     /// <typeparam name="T"></typeparam>
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _dataContext;
+        private protected ApplicationDbContext _dataContext;
 
         protected BaseRepository(ApplicationDbContext dataContext)
         {

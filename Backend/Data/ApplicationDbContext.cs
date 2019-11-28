@@ -15,7 +15,7 @@ namespace Backend.Data
         {
         }
 
-        public DbSet<Device> ConnectedDevices { get; set; }
+        public DbSet<Device> Devices { get; set; }
         public DbSet<Attempt> Attempts { get; set; }
         public DbSet<AttemptDevice> AttemptDevices { get; set; }
         public DbSet<GameSequence> GameSequences { get; set; }
@@ -28,8 +28,14 @@ namespace Backend.Data
             builder.Entity<GameSequence>().HasKey(x => x.MacAddress);
 
             builder.Entity<AttemptDevice>().HasKey(c => new {c.AttemptId, MacAddress = c.DeviceMacAddress});
-            builder.Entity<AttemptDevice>().HasOne(c => c.Attempt);
-            builder.Entity<AttemptDevice>().HasOne(c => c.Device);
+
+            builder.Entity<AttemptDevice>().HasOne(c => c.Attempt)
+                .WithMany(c => c.AttemptDevices)
+                .HasForeignKey(c => c.AttemptId);
+
+            builder.Entity<AttemptDevice>().HasOne(c => c.Device)
+                .WithMany(c => c.AttemptDevices)
+                .HasForeignKey(c => c.DeviceMacAddress);
         }
     }
 }
