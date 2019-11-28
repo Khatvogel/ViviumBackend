@@ -28,7 +28,8 @@ namespace Frontend.API
                 new JsonSerializerSettings
                 {
                     Formatting = Formatting.Indented,
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore
                 });
 
             return Ok(jsonResult);

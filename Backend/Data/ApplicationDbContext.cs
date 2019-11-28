@@ -8,7 +8,7 @@ namespace Backend.Data
     /// Dit is onze database voor in de backend.
     /// Regels of relaties tussen tabellen kan je in de methode OnModelCreating toevoegen
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext
+    public sealed class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -36,6 +36,8 @@ namespace Backend.Data
             builder.Entity<AttemptDevice>().HasOne(c => c.Device)
                 .WithMany(c => c.AttemptDevices)
                 .HasForeignKey(c => c.DeviceMacAddress);
+
+            builder.Entity<Attempt>().HasMany(a => a.Devices);
         }
     }
 }
