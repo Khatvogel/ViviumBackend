@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Data;
 using Backend.Interfaces;
@@ -31,10 +33,27 @@ namespace Backend.Repository
             return await _dataContext.Set<T>().FindAsync(id);
         }
 
-        public virtual async Task<IReadOnlyList<T>> ListAllAsync()
+        public virtual async Task<T> GetAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _dataContext.Set<T>().FindAsync(expression);
+        }
+
+        public virtual async Task<IReadOnlyList<T>> GetListAsync()
         {
             var result = await _dataContext.Set<T>().ToListAsync();
             return result.Any() ? result : new List<T>();
+        }
+
+        public virtual async Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> expression)
+        {
+            var result = await _dataContext.Set<T>().Where(expression).ToListAsync();
+            return result.Any() ? result : new List<T>();
+        }
+
+        public virtual async Task<T> GetLastAsync()
+        {
+            var result = await GetListAsync();
+            return result.Any() ? result.Last() : null;
         }
 
         public virtual async Task<T> AddAsync(T entity)

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Entities;
-using Backend.Interfaces;
-using Backend.Interfaces.Firebase;
+using Backend.Interfaces.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -12,9 +11,9 @@ namespace Frontend.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly IConnectedDeviceRepository _repository;
+        private readonly IDeviceRepository _repository;
 
-        public IndexModel(ILogger<IndexModel> logger, IConnectedDeviceRepository repository)
+        public IndexModel(ILogger<IndexModel> logger, IDeviceRepository repository)
         {
             _logger = logger;
             _repository = repository;
@@ -24,7 +23,7 @@ namespace Frontend.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            ConnectedDevices = await _repository.ListAllAsync();
+            ConnectedDevices = await _repository.GetListAsync();
             return Page();
         }
     }

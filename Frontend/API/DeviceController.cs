@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Backend.Entities;
-using Backend.Interfaces;
-using Backend.Interfaces.Firebase;
+using Backend.Interfaces.Repositories;
+using Frontend.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Frontend.API
 {
@@ -15,17 +12,22 @@ namespace Frontend.API
     [Route("devices")]
     public class DeviceController : Controller
     {
-        private readonly IConnectedDeviceRepository _repository;
+        private readonly IDeviceRepository _deviceRepository;
+        private readonly IAttemptRepository _attemptRepository;
+        private readonly IAttemptDeviceRepository _attemptDeviceRepository;
 
-        public DeviceController(IConnectedDeviceRepository repository)
+        public DeviceController(IDeviceRepository deviceRepository, IAttemptRepository attemptRepository,
+            IAttemptDeviceRepository attemptDeviceRepository)
         {
-            _repository = repository;
+            _deviceRepository = deviceRepository;
+            _attemptRepository = attemptRepository;
+            _attemptDeviceRepository = attemptDeviceRepository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get()
         {
-            var result = await _repository.GetAsync(id);
+            var result = await _deviceRepository.GetListAsync();
             return Ok(result);
         }
 
@@ -34,26 +36,30 @@ namespace Frontend.API
         public async Task<IActionResult> Post(Device device)
         {
             device.LastOnline = DateTime.UtcNow.AddHours(1);
-            var result = await _repository.GetAsync(device.MacAddress);
-            
+            var result = await _deviceRepository.GetAsync(device.MacAddress);
+            var lastAttempt = await _attemptRepository.GetListAsync();
+
+            var response = new RegisterDeviceResponseViewModel(device);
+            if (lastAttempt.Any())
+            {
+                var attemptDevice = await _attemptDeviceRepository.GetAsync(x =>
+                    x.DeviceMacAddress == device.MacAddress && x.AttemptId == lastAttempt.Last().Id);
+                
+                response.Finished = attemptDevice.Finished;
+                response.Started = attemptDevice.Started;
+            }
+
             //update
             if (result != null)
             {
-                _repository.Detach(result);
-                await _repository.UpdateAsync(device);
-                return Ok("Device already exists.");
+                _deviceRepository.Detach(result);
+                await _deviceRepository.UpdateAsync(device);
+                return Ok(response);
             }
 
             //post
-            await _repository.AddAsync(device);
-            return Ok("Device successfully added.");
-        }
-        
-        [HttpPut]
-        public async Task<IActionResult> Put(Device device)
-        {
-            await _repository.UpdateAsync(device);
-            return Ok("Resource updated");
+            await _deviceRepository.AddAsync(device);
+            return Ok(response);
         }
     }
 }

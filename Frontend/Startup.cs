@@ -1,6 +1,6 @@
 using Backend.Data;
-using Backend.Interfaces;
 using Backend.Interfaces.Firebase;
+using Backend.Interfaces.Repositories;
 using Backend.Repository;
 using Backend.Repository.Firebase;
 using Microsoft.AspNetCore.Builder;
@@ -38,7 +38,10 @@ namespace Frontend
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"});
             });
             services.AddHttpClient<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
-            services.AddScoped<IConnectedDeviceRepository, ConnectedDeviceRepository>();
+            services.AddScoped<IDeviceRepository, DeviceRepository>();
+            services.AddScoped<IAttemptRepository, AttemptRepository>();
+            services.AddScoped<IAttemptDeviceRepository, AttemptDeviceRepository>();
+            services.AddScoped<IGameSequenceRepository, GameSequenceRepository>();
             services.AddScoped<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
         }
 

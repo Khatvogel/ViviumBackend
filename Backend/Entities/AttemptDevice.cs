@@ -5,7 +5,9 @@ namespace Backend.Entities
     public class AttemptDevice
     {
         public int AttemptId { get; set; }
-        public string MacAddress { get; set; }
+        public string DeviceMacAddress { get; set; }
+        public bool Started { get; set; }
+        public DateTime StartedAt { get; set; }
         public bool Finished { get; set; }
         public DateTime FinshedAt { get; set; }
 

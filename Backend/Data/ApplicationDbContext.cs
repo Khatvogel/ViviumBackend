@@ -25,8 +25,9 @@ namespace Backend.Data
             base.OnModelCreating(builder);
             builder.Entity<Device>()
                 .HasKey(c => c.MacAddress);
+            builder.Entity<GameSequence>().HasKey(x => x.MacAddress);
 
-            builder.Entity<AttemptDevice>().HasKey(c => new {c.AttemptId, c.MacAddress});
+            builder.Entity<AttemptDevice>().HasKey(c => new {c.AttemptId, MacAddress = c.DeviceMacAddress});
             builder.Entity<AttemptDevice>().HasOne(c => c.Attempt);
             builder.Entity<AttemptDevice>().HasOne(c => c.Device);
         }

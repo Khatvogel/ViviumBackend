@@ -3,14 +3,16 @@ using System;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191128160822_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +43,6 @@ namespace Backend.Migrations
                     b.Property<int>("AttemptId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("MacAddress")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("DeviceMacAddress")
                         .HasColumnType("TEXT");
 
@@ -59,7 +58,7 @@ namespace Backend.Migrations
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("AttemptId", "MacAddress");
+                    b.HasKey("AttemptId", "DeviceMacAddress");
 
                     b.HasIndex("DeviceMacAddress");
 
@@ -90,10 +89,15 @@ namespace Backend.Migrations
                     b.Property<string>("MacAddress")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("DeviceMacAddress")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Order")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("MacAddress");
+
+                    b.HasIndex("DeviceMacAddress");
 
                     b.ToTable("GameSequences");
                 });
@@ -297,11 +301,20 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.Entities.AttemptDevice", b =>
                 {
                     b.HasOne("Backend.Entities.Attempt", "Attempt")
-                        .WithMany()
+                        .WithMany("AttemptDevices")
                         .HasForeignKey("AttemptId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend.Entities.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceMacAddress")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Entities.GameSequence", b =>
+                {
                     b.HasOne("Backend.Entities.Device", "Device")
                         .WithMany()
                         .HasForeignKey("DeviceMacAddress");
