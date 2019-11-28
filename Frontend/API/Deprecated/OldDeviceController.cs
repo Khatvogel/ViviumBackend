@@ -32,7 +32,7 @@ namespace Frontend.API.Deprecated
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Post(ConnectedDevice device)
+        public IActionResult Post(Device device)
         {
             _repository.PushAsync(device);
             return Ok(device);
@@ -40,7 +40,7 @@ namespace Frontend.API.Deprecated
 
         [HttpPatch]
         [Route("ping")]
-        public IActionResult Patch(ConnectedDevice device)
+        public IActionResult Patch(Device device)
         {
             _repository.UpdateAsync(device);
             return Ok(device);

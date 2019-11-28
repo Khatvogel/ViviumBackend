@@ -31,7 +31,7 @@ namespace Frontend.API
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Post(ConnectedDevice device)
+        public async Task<IActionResult> Post(Device device)
         {
             device.LastOnline = DateTime.UtcNow.AddHours(1);
             var result = await _repository.GetAsync(device.MacAddress);
@@ -50,7 +50,7 @@ namespace Frontend.API
         }
         
         [HttpPut]
-        public async Task<IActionResult> Put(ConnectedDevice device)
+        public async Task<IActionResult> Put(Device device)
         {
             await _repository.UpdateAsync(device);
             return Ok("Resource updated");

@@ -15,15 +15,20 @@ namespace Backend.Data
         {
         }
 
-        //Met de onderstaande regel voeg je een nieuwe tabel toe aan de database
-        public DbSet<ConnectedDevice> ConnectedDevices { get; set; }
-        
+        public DbSet<Device> ConnectedDevices { get; set; }
+        public DbSet<Attempt> Attempts { get; set; }
+        public DbSet<AttemptDevice> AttemptDevices { get; set; }
+        public DbSet<GameSequence> GameSequences { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<ConnectedDevice>()
+            builder.Entity<Device>()
                 .HasKey(c => c.MacAddress);
+
+            builder.Entity<AttemptDevice>().HasKey(c => new {c.AttemptId, c.MacAddress});
+            builder.Entity<AttemptDevice>().HasOne(c => c.Attempt);
+            builder.Entity<AttemptDevice>().HasOne(c => c.Device);
         }
     }
 }

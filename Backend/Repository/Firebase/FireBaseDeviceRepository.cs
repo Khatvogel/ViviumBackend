@@ -4,7 +4,7 @@ using Backend.Interfaces.Firebase;
 
 namespace Backend.Repository.Firebase
 {
-    public class FireBaseDeviceRepository : FirebaseRepository<ConnectedDevice>, IFireBaseDeviceRepository
+    public class FireBaseDeviceRepository : FirebaseRepository<Device>, IFireBaseDeviceRepository
     {
         public FireBaseDeviceRepository(IHttpClientFactory httpClient) : base(httpClient)
         {

@@ -2,7 +2,7 @@
 
 namespace Backend.Interfaces.Firebase
 {
-    public interface IFireBaseDeviceRepository : IFireBaseRepository<ConnectedDevice>
+    public interface IFireBaseDeviceRepository : IFireBaseRepository<Device>
     {
     }
 }

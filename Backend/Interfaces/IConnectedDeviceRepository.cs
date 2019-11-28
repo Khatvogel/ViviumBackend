@@ -2,7 +2,7 @@
 
 namespace Backend.Interfaces
 {
-    public interface IConnectedDeviceRepository : IBaseRepository<ConnectedDevice>
+    public interface IConnectedDeviceRepository : IBaseRepository<Device>
     {
         
     }

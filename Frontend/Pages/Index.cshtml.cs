@@ -20,7 +20,7 @@ namespace Frontend.Pages
             _repository = repository;
         }
         
-        [BindProperty] public IReadOnlyList<ConnectedDevice> ConnectedDevices { get; set; }
+        [BindProperty] public IReadOnlyList<Device> ConnectedDevices { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
