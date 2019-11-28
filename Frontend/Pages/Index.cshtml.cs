@@ -21,10 +21,11 @@ namespace Frontend.Pages
         
         [BindProperty] public IReadOnlyList<Device> ConnectedDevices { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public IActionResult OnGet()
         {
-            ConnectedDevices = await _repository.GetListAsync();
-            return Page();
+            return Redirect("Dashboard/Devices");
+//            ConnectedDevices = await _repository.GetListAsync();
+//            return Page();
         }
     }
 }

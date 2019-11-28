@@ -175,6 +175,8 @@ namespace Backend.Migrations
                     Name = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     LastOnline = table.Column<DateTime>(nullable: false),
+                    Started = table.Column<DateTime>(nullable: false),
+                    Finished = table.Column<DateTime>(nullable: false),
                     AttemptId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

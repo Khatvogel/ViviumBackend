@@ -41,6 +41,8 @@ namespace Backend.Data
                     Name = "Handzeep",
                     Category = "Game",
                     LastOnline = DateTime.Now.ToUniversalTime().AddHours(1),
+                    Started = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(1),
+                    Finished = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(19),
                     AttemptId = 1
                 },
                 new Device
@@ -48,7 +50,9 @@ namespace Backend.Data
                     MacAddress = "A2:C4:2B:6D:1B:10",
                     Name = "Zoutmeter",
                     Category = "Game",
-                    LastOnline = DateTime.Now.ToUniversalTime().AddHours(1),
+                    LastOnline = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(20),
+                    Started = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(21),
+                    Finished = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(48),
                     AttemptId = 1
                 },
                 new Device
@@ -56,7 +60,9 @@ namespace Backend.Data
                     MacAddress = "63:11:06:AB:43:79",
                     Name = "Zwenkelen",
                     Category = "Game",
-                    LastOnline = DateTime.Now.ToUniversalTime().AddHours(1),
+                    LastOnline = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(50),
+                    Started = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(51),
+                    Finished = DateTime.Now.ToUniversalTime().AddHours(2).AddMinutes(19),
                     AttemptId = 1
                 }
             };

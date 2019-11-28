@@ -10,6 +10,8 @@ namespace Backend.Entities
         public string Name { get; set; }
         public string Category { get; set; }
         public DateTime LastOnline { get; set; }
+        public DateTime Started { get; set; }
+        public DateTime Finished { get; set; }
 
         public int AttemptId { get; set; }
         public Attempt Attempt { get; set; }

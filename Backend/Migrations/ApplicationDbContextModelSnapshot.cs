@@ -74,10 +74,16 @@ namespace Backend.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("Finished")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastOnline")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Started")
                         .HasColumnType("TEXT");
 
                     b.HasKey("MacAddress");

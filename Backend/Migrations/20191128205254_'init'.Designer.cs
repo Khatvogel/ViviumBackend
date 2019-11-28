@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191128204200_'init'")]
+    [Migration("20191128205254_'init'")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,10 +76,16 @@ namespace Backend.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("Finished")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastOnline")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Started")
                         .HasColumnType("TEXT");
 
                     b.HasKey("MacAddress");
