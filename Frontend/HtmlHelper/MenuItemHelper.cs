@@ -9,10 +9,7 @@ namespace Frontend.HtmlHelper
     {
         public static string IsSelected(this IHtmlHelper htmlHelper, string area, string cssClass = "active")
         {
-
-            var currentArea = htmlHelper.ViewContext.RouteData.Values["area"] as string;
-
-            if (currentArea == null) return string.Empty;
+            if (!(htmlHelper.ViewContext.RouteData.Values["page"] is string currentArea)) return string.Empty;
 
             IEnumerable<string> acceptedActions = (area ?? currentArea).Split(',');
 
