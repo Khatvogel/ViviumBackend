@@ -48,5 +48,12 @@ namespace Frontend.API
             await _repository.AddAsync(device);
             return Ok("Device successfully added.");
         }
+        
+        [HttpPut]
+        public async Task<IActionResult> Put(ConnectedDevice device)
+        {
+            await _repository.UpdateAsync(device);
+            return Ok("Resource updated");
+        }
     }
 }
