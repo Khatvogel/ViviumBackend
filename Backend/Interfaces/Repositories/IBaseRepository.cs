@@ -11,8 +11,6 @@ namespace Backend.Interfaces
     /// </summary>
     public interface IBaseRepository<T> where T : class
     {
-        Task<T> GetAsync(int id);
-        Task<T> GetAsync(string id);
         Task<T> GetAsync(Expression<Func<T, bool>> expression);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);

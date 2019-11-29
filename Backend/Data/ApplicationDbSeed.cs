@@ -15,7 +15,7 @@ namespace Backend.Data
                 applicationDbContext.Attempts.AddRange(GetPreConfiguredAttempts());
                 await applicationDbContext.SaveChangesAsync();
             }
-            
+
             if (!applicationDbContext.Devices.Any())
             {
                 applicationDbContext.Devices.AddRange(GetPreConfiguredDevices());
@@ -37,33 +37,30 @@ namespace Backend.Data
             {
                 new Device
                 {
+                    Id = 1,
                     MacAddress = "74:E8:5F:B0:7A:13",
                     Name = "Handzeep",
                     Category = "Game",
                     LastOnline = DateTime.Now.ToUniversalTime().AddHours(1),
-                    Started = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(1),
-                    Finished = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(19),
-                    AttemptId = 1
+                    Order = 1
                 },
                 new Device
                 {
+                    Id = 2,
                     MacAddress = "A2:C4:2B:6D:1B:10",
                     Name = "Zoutmeter",
                     Category = "Game",
                     LastOnline = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(20),
-                    Started = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(21),
-                    Finished = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(48),
-                    AttemptId = 1
+                    Order = 1
                 },
                 new Device
                 {
+                    Id = 3,
                     MacAddress = "63:11:06:AB:43:79",
                     Name = "Zwenkelen",
                     Category = "Game",
                     LastOnline = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(50),
-                    Started = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(51),
-                    Finished = DateTime.Now.ToUniversalTime().AddHours(2).AddMinutes(19),
-                    AttemptId = 1
+                    Order = 2
                 }
             };
         }
@@ -92,32 +89,36 @@ namespace Backend.Data
                 new AttemptDevice
                 {
                     AttemptId = 1,
-                    DeviceMacAddress = "74:E8:5F:B0:7A:13"
+                    DeviceId = 1
                 },
                 new AttemptDevice
                 {
                     AttemptId = 1,
-                    DeviceMacAddress = "A2:C4:2B:6D:1B:10"
+                    DeviceId = 2
                 },
                 new AttemptDevice
                 {
                     AttemptId = 1,
-                    DeviceMacAddress = "63:11:06:AB:43:79"
-                }, new AttemptDevice
-                {
-                    AttemptId = 2,
-                    DeviceMacAddress = "74:E8:5F:B0:7A:13"
+                    DeviceId = 3
                 },
                 new AttemptDevice
                 {
                     AttemptId = 2,
-                    DeviceMacAddress = "A2:C4:2B:6D:1B:10"
+                    DeviceId = 1,
+                    StartedAt = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(1),
+                    FinishedAt = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(11)
                 },
                 new AttemptDevice
                 {
                     AttemptId = 2,
-                    DeviceMacAddress = "63:11:06:AB:43:79"
+                    DeviceId = 2,
+                    StartedAt = DateTime.Now.ToUniversalTime().AddHours(1).AddMinutes(11),
                 },
+                new AttemptDevice
+                {
+                    AttemptId = 2,
+                    DeviceId = 3
+                }
             };
         }
     }

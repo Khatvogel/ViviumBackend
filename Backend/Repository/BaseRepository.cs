@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Backend.Data;
 using Backend.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Backend.Extensions;
 
 namespace Backend.Repository
 {
@@ -23,30 +24,22 @@ namespace Backend.Repository
             _dataContext = dataContext;
         }
 
-        public virtual async Task<T> GetAsync(int id)
-        {
-            return await _dataContext.Set<T>().FindAsync(id);
-        }
-        
-        public virtual async Task<T> GetAsync(string id)
-        {
-            return await _dataContext.Set<T>().FindAsync(id);
-        }
-
         public virtual async Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
-            return await _dataContext.Set<T>().FindAsync(expression);
+            return await _dataContext.Set<T>().Include(_dataContext.GetIncludePaths(typeof(T)))
+                .FirstOrDefaultAsync(expression);
         }
 
         public virtual async Task<IReadOnlyList<T>> GetListAsync()
         {
-            var result = await _dataContext.Set<T>().ToListAsync();
+            var result = await _dataContext.Set<T>().Include(_dataContext.GetIncludePaths(typeof(T))).ToListAsync();
             return result.Any() ? result : new List<T>();
         }
 
         public virtual async Task<IReadOnlyList<T>> GetListAsync(Expression<Func<T, bool>> expression)
         {
-            var result = await _dataContext.Set<T>().Where(expression).ToListAsync();
+            var result = await _dataContext.Set<T>().Include(_dataContext.GetIncludePaths(typeof(T))).Where(expression)
+                .ToListAsync();
             return result.Any() ? result : new List<T>();
         }
 

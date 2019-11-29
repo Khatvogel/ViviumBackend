@@ -10,7 +10,6 @@ namespace Backend.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public virtual List<Device> Devices { get; set; }
         public virtual List<AttemptDevice> AttemptDevices { get; set; }
     }
 }

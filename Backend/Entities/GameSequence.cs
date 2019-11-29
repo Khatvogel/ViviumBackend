@@ -2,6 +2,7 @@
 {
     public class GameSequence
     {
+        public int Id { get; set; }
         public string MacAddress { get; set; }
         public int Order { get; set; }
         
