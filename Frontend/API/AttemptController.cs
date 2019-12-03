@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
-using Frontend.Extensions;
+using Frontend.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Frontend.API
@@ -27,7 +27,7 @@ namespace Frontend.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(JsonCycle.Fix(await _attemptRepository.GetListAsync()));
+            return Ok(JsonHelper.FixCycle(await _attemptRepository.GetListAsync()));
         }
 
         [HttpGet]
@@ -51,7 +51,7 @@ namespace Frontend.API
                 });
             }
             
-            return Ok(JsonCycle.Fix(attempt));
+            return Ok(JsonHelper.FixCycle(attempt));
         }
     }
 }

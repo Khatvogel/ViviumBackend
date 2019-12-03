@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
-using Frontend.Extensions;
-using Frontend.ViewModels;
+using Frontend.DTO;
+using Frontend.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Frontend.API
@@ -29,7 +29,7 @@ namespace Frontend.API
         public async Task<IActionResult> Get()
         {
             var result = await _deviceRepository.GetListAsync();
-            return Ok(JsonCycle.Fix(result));
+            return Ok(JsonHelper.FixCycle(result));
         }
 
         [HttpPost]
@@ -37,51 +37,54 @@ namespace Frontend.API
         public async Task<IActionResult> Register(Device device)
         {
             device.LastOnline = DateTime.Now;
-            
-            var responseDevice = await _deviceRepository.GetAsync(x => x.MacAddress == device.MacAddress);
-            var lastAttempt = await _attemptRepository.GetListAsync();
 
-            var response = new RegisterDeviceResponseViewModel(device);
-            if (lastAttempt.Any())
+            var currentDevice = await _deviceRepository.GetAsync(x => x.MacAddress == device.MacAddress);
+            var currentGame = await _attemptRepository.GetLastAsync();
+
+            var responseDto = new RegisterDeviceResponseDto(device);
+            if (currentGame != null)
             {
+                // Fetch status (started, finished) for this device in the current game
                 var attemptDevice = await _attemptDeviceRepository.GetAsync(x =>
-                    x.DeviceId == responseDevice.Id && x.AttemptId == lastAttempt.Last().Id);
+                    x.DeviceId == currentDevice.Id && x.AttemptId == currentGame.Id);
+
+                // If it found an attempt device, overwrite the started and finished bool
                 if (attemptDevice != null)
                 {
-                    response.Finished = attemptDevice.FinishedAt != null;
-                    response.Started = attemptDevice.StartedAt != null;
+                    responseDto.Finished = attemptDevice.FinishedAt != null;
+                    responseDto.Started = attemptDevice.StartedAt != null;
                 }
             }
 
-            //update
-            if (responseDevice.Id != 0)
+            // Found a matching device, update it
+            if (currentDevice.Id != 0)
             {
-                responseDevice.LastOnline = DateTime.Now;
-                responseDevice.Category = device.Category;
-                responseDevice.Name = device.Name;
-                response.Device = responseDevice;
-                await _deviceRepository.UpdateAsync(responseDevice);
-                return Ok(JsonCycle.Fix(response));
+                currentDevice.LastOnline = DateTime.Now;
+                currentDevice.Category = device.Category;
+                currentDevice.Name = device.Name;
+                responseDto.Device = currentDevice;
+                await _deviceRepository.UpdateAsync(currentDevice);
+                return Ok(JsonHelper.FixCycle(responseDto));
             }
 
-            //post
+            // No device found with this MAC address, make it
             await _deviceRepository.AddAsync(device);
-            return Ok(JsonCycle.Fix(response));
+            return Ok(JsonHelper.FixCycle(responseDto));
         }
 
         [HttpGet]
         [Route("finish")]
         public async Task<IActionResult> Finish(string macAddress)
         {
-            var lastAttempt = await _attemptRepository.GetLastAsync();
+            var currentGame = await _attemptRepository.GetLastAsync();
             var currentDevice = await _deviceRepository.GetAsync(x => x.MacAddress == macAddress);
-            if (lastAttempt == null || currentDevice.Id == 0)
+            if (currentGame == null || currentDevice.Id == 0)
             {
                 return NoContent();
             }
 
             // Finish device
-            var attemptDevice = lastAttempt.AttemptDevices.FirstOrDefault(x => x.DeviceId == currentDevice.Id);
+            var attemptDevice = currentGame.AttemptDevices.FirstOrDefault(x => x.DeviceId == currentDevice.Id);
             if (attemptDevice == null || attemptDevice.AttemptId == 0)
             {
                 return NoContent();
@@ -90,25 +93,29 @@ namespace Frontend.API
             attemptDevice.FinishedAt = DateTime.Now;
             await _attemptDeviceRepository.UpdateAsync(attemptDevice);
 
-            var devicesOnOrder = (await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order))
+            // Fetch all devices on the same order that this device is trying to finish
+            var devicesInOrder = (await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order))
                 .Select(x => x.Id).ToList();
 
+            // Get all the devices that are finished on this order in this attempt
             var attemptDevicesFinished =
                 await _attemptDeviceRepository.GetListAsync(x =>
-                    devicesOnOrder.Contains(x.DeviceId) && x.FinishedAt != null && x.AttemptId == lastAttempt.Id);
+                    devicesInOrder.Contains(x.DeviceId) && x.FinishedAt != null && x.AttemptId == currentGame.Id);
 
-            var devices = await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order + 1);
-            // Is there nothing left to complete, they finished the game
-            if (devicesOnOrder.Count == attemptDevicesFinished.Count)
+            // Everything is finished on this order, either finish the game or start the next order
+            if (devicesInOrder.Count == attemptDevicesFinished.Count)
             {
+                var devices = await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order + 1);
+
+                // If there are no devices in the next order, meaning there are no devices to be completed, finish the game
                 if (devices.Count == 0)
                 {
                     attemptDevice.Attempt.EndDate = DateTime.Now;
                     await _attemptRepository.UpdateAsync(attemptDevice.Attempt);
-                    return Ok(JsonCycle.Fix(attemptDevice.Attempt));
+                    return Ok(JsonHelper.FixCycle(attemptDevice.Attempt));
                 }
 
-                // Are there devices that have to start after this one is finished? Start them here
+                // Are there devices that have to start after the current order? Start them here
                 foreach (var nextDevice in devices)
                 {
                     await _attemptDeviceRepository.AddAsync(new AttemptDevice
@@ -119,7 +126,7 @@ namespace Frontend.API
                 }
             }
 
-            return Ok(JsonCycle.Fix(attemptDevice.Attempt));
+            return Ok(JsonHelper.FixCycle(attemptDevice.Attempt));
         }
     }
 }
