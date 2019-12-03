@@ -20,6 +20,7 @@ namespace Frontend.API
         public DeviceController(IDeviceRepository deviceRepository, IAttemptRepository attemptRepository,
             IAttemptDeviceRepository attemptDeviceRepository)
         {
+            // Dit is een test
             _deviceRepository = deviceRepository;
             _attemptRepository = attemptRepository;
             _attemptDeviceRepository = attemptDeviceRepository;
