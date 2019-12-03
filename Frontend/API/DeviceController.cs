@@ -43,7 +43,7 @@ namespace Frontend.API
             var currentGame = await _attemptRepository.GetLastAsync();
 
             var responseDto = new RegisterDeviceResponseDto(device);
-            if (currentGame != null)
+            if (currentGame != null && currentDevice != null)
             {
                 // Fetch status (started, finished) for this device in the current game
                 var attemptDevice = await _attemptDeviceRepository.GetAsync(x =>
