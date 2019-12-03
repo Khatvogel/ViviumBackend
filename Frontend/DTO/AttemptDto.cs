@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Backend.Entities;
 
-namespace Frontend.ViewModels
+namespace Frontend.DTO
 {
-    public class AttemptViewModel
+    public class AttemptDto
     {
         public IReadOnlyList<Attempt> Attempts { get; set; }
     }

@@ -1,10 +1,15 @@
 ﻿using Newtonsoft.Json;
 
-namespace Frontend.Extensions
+namespace Frontend.Helpers
 {
-    public static class JsonCycle
+    public static class JsonHelper
     {
-        public static string Fix(object value)
+        /// <summary>
+        /// Use this to fix the json cycle error
+        /// </summary>
+        /// <param name="value">Your object to be formatted</param>
+        /// <returns></returns>
+        public static string FixCycle(object value)
         {
             return JsonConvert.SerializeObject(value,
                 new JsonSerializerSettings
