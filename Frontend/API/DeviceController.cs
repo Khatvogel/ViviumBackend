@@ -58,7 +58,7 @@ namespace Frontend.API
             }
 
             // Found a matching device, update it
-            if (currentDevice.Id != 0)
+            if (currentDevice != null && currentDevice.Id != 0)
             {
                 currentDevice.LastOnline = DateTime.Now;
                 currentDevice.Category = device.Category;
