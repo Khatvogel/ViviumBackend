@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
 using Frontend.Services.SignalR;
@@ -30,13 +31,12 @@ namespace Frontend.API
             var attempt = await _repository.GetLastAsync();
             if (attempt == null) return NotFound();
 
-            var hint = new Hint
-            {
-                Attempt = attempt
-            };
-
-            await _hintRepository.AddAsync(hint);
-            await _hintsHub.Clients.All.SendAsync("Create", attempt.Hints.Count);
+            await _hintRepository.AddAsync(new Hint {Attempt = attempt});
+            
+            var hints = attempt.Hints.Select(x => !x.Processed).ToList().Count;
+            
+            await _hintsHub.Clients.All.SendAsync("Create", hints);
+            
             return Ok("Je hebt om een hint gevraagd. Even geduld a.u.b.");
         }
     }

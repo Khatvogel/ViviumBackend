@@ -27,7 +27,9 @@ namespace Frontend.Areas.Dashboard.Pages
         {
             Attempt = await _attemptRepository.GetLastAsync();
             ViewData["Hints"] = Attempt.Hints;
-            ViewData["HintsCount"] = Attempt.Hints.Count;
+            ViewData["ClassName"] = Attempt.Hints.Count > 0 ? "notification" : string.Empty;
+            ViewData["HintsCount"] = Attempt.Hints.Count > 0 ? Attempt.Hints.Count : (object) null;
+            
             return Page();
         }
     }

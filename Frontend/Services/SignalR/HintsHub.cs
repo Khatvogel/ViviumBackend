@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Frontend.Services.SignalR
 {
-    public class HintsHub : Hub<IHintClient>
+    public class HintsHub : Hub
     {
-        public async Task Create() => await Clients.All.Create();
+        public async Task Create(int amount) => await Clients.All.SendAsync("Create", amount);
     }
 }
