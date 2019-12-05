@@ -1,16 +1,29 @@
 ﻿"use strict";
 
-let connection = new signalR.HubConnectionBuilder().withUrl("/hintsHub").build();
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/hintsHub")
+    .withAutomaticReconnect()
+    .build();
 
-connection.on("Create", function (amount) {
-    console.log("Hints: " + amount);
-    let hints = document.getElementById("hints-notification");
+connection.on("Create", function (amount, hints) {
+    console.log(hints);
+    let hintDiv = document.getElementById("hints-notification");
     if (amount > 0) {
-        hints.classList.add("notification");
-        hints.innerHTML = amount;
+        hintDiv.classList.add("notification");
+        hintDiv.innerHTML = amount;
+
+        let ul = $("#hints-description");
+        ul.empty();
+
+        hints.forEach(function (hint) {
+            ul.append("<a class=\"dropdown-item\" href=\"javascript:void(0)\">Ronde "+ hint.attempt.id +" vroeg om een hint.</a>");
+        });
+        
     } else {
-        hints.classList.remove("notification")
+        hintDiv.classList.remove("notification")
     }
 });
 
-connection.start();
+connection.start().catch(function (err) {
+    return console.error(err.toString());
+});

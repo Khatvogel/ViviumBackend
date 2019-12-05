@@ -33,9 +33,9 @@ namespace Frontend.API
 
             await _hintRepository.AddAsync(new Hint {Attempt = attempt});
             
-            var hints = attempt.Hints.Select(x => !x.Processed).ToList().Count;
-            
-            await _hintsHub.Clients.All.SendAsync("Create", hints);
+            var amount = attempt.Hints.Select(x => !x.Processed).ToList().Count;
+
+            await _hintsHub.Clients.All.SendAsync("Create", amount, attempt.Hints);
             
             return Ok("Je hebt om een hint gevraagd. Even geduld a.u.b.");
         }

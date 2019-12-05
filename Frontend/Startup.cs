@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace Frontend
 {
@@ -35,7 +36,19 @@ namespace Frontend
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddSignalR();
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.AllowAnyMethod().AllowAnyHeader()
+                        .WithOrigins("http://localhost:5001")
+                        .AllowCredentials();
+                }));
+            services.AddSignalR().AddNewtonsoftJsonProtocol(
+                p =>
+                {
+                    p.PayloadSerializerSettings.ReferenceLoopHandling =
+                        ReferenceLoopHandling.Ignore;
+                });
             services.AddRazorPages();
             services.AddControllers();
             services.AddMvc().AddNewtonsoftJson(x =>
@@ -45,7 +58,7 @@ namespace Frontend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"});
             });
-            
+
             services.AddScoped<IHintRepository, HintRepository>();
             services.AddScoped<IDeviceRepository, DeviceRepository>();
             services.AddScoped<IAttemptRepository, AttemptRepository>();
@@ -80,6 +93,8 @@ namespace Frontend
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
+
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
