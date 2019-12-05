@@ -21,7 +21,7 @@ $("#new-game-button").click(function () {
         totalSeconds = 0;
         gameStatusHeader.removeClass("card-header card-header-danger");
         gameStatusHeader.addClass("card-header card-header-success");
-        gameStatusHeader.html("<h2>Start a new game!</h2>");
+        gameStatusHeader.html("<h2>Start een nieuw spel</h2>");
         started = false;
     }
 });

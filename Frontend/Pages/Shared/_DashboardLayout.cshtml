@@ -1,4 +1,6 @@
-﻿@using Frontend.HtmlHelper
+﻿@using System.Collections
+@using Backend.Entities
+@using Frontend.HtmlHelper
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,17 +100,20 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">notifications</i>
-                                <span class="notification">5</span>
+                                <span id="hints-notification" class="notification">@ViewData["HintsCount"]</span>
                                 <p class="d-lg-none d-md-block">
                                     Some Actions
                                 </p>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="javascript:void(0)">Mike John responded to your email</a>
-                                <a class="dropdown-item" href="javascript:void(0)">You have 5 new tasks</a>
-                                <a class="dropdown-item" href="javascript:void(0)">You're now friend with Andrew</a>
-                                <a class="dropdown-item" href="javascript:void(0)">Another Notification</a>
-                                <a class="dropdown-item" href="javascript:void(0)">Another One</a>
+                                @{
+                                    foreach (Hint hint in (IEnumerable) ViewData["Hints"])
+                                    {
+                                        <a class="dropdown-item" href="javascript:void(0)">
+                                            Speelronde @hint.Attempt.Id vroeg om een nieuwe hint!
+                                        </a>
+                                    }
+                                }
                             </div>
                         </li>
                         <li class="nav-item">
@@ -388,6 +393,8 @@
         md.initDashboardPageCharts();
     });
 </script>
+<script src="js/SignalR/signalr.min.js"></script>
+<script src="js/SignalR/hint.js"></script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>

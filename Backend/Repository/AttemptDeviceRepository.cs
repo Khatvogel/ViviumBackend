@@ -10,10 +10,5 @@ namespace Backend.Repository
         public AttemptDeviceRepository(ApplicationDbContext dataContext) : base(dataContext)
         {
         }
-
-        public Task<AttemptDevice> GetLastAsync()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

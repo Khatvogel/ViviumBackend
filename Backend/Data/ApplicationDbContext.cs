@@ -23,17 +23,22 @@ namespace Backend.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Device>().HasIndex(c => c.MacAddress).IsUnique();
 
-            builder.Entity<AttemptDevice>().HasKey(c => new {c.AttemptId, MacAddress = c.DeviceId});
-            builder.Entity<AttemptDevice>().HasOne(c => c.Attempt)
+            builder.Entity<Device>()
+                .HasIndex(c => c.MacAddress)
+                .IsUnique();
+
+            builder.Entity<AttemptDevice>()
+                .HasKey(c => new {c.AttemptId, MacAddress = c.DeviceId});
+
+            builder.Entity<AttemptDevice>()
+                .HasOne(c => c.Attempt)
                 .WithMany(c => c.AttemptDevices)
                 .HasForeignKey(c => c.AttemptId);
-//            builder.Entity<AttemptDevice>().HasOne(c => c.Device)
-//                .WithMany(c => c.AttemptDevices)
-//                .HasForeignKey(c => c.DeviceId);
 
-//            builder.Entity<Attempt>().HasMany(a => a.AttemptDevices);
+            builder.Entity<Attempt>()
+                .HasMany(a => a.Hints)
+                .WithOne(a => a.Attempt);
         }
     }
 }

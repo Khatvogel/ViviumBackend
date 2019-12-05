@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Backend.Entities;
 using Backend.Interfaces.Repositories;
 using Frontend.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -11,19 +12,22 @@ namespace Frontend.Areas.Dashboard.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IAttemptDeviceRepository _repository;
+        private readonly IAttemptRepository _attemptRepository;
 
-        public IndexModel(ILogger<IndexModel> logger, IAttemptDeviceRepository repository)
+        public IndexModel(ILogger<IndexModel> logger, IAttemptDeviceRepository repository, IAttemptRepository attemptRepository)
         {
             _logger = logger;
             _repository = repository;
+            _attemptRepository = attemptRepository;
         }
 
-        [BindProperty] public DashboardViewModel DashboardViewModel { get; set; }
+        [BindProperty] public Attempt Attempt { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var list = await _repository.GetListAsync();
-            DashboardViewModel = new DashboardViewModel();
+            Attempt = await _attemptRepository.GetLastAsync();
+            ViewData["Hints"] = Attempt.Hints;
+            ViewData["HintsCount"] = Attempt.Hints.Count;
             return Page();
         }
     }
