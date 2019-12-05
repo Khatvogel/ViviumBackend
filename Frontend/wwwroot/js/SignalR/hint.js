@@ -16,9 +16,9 @@ connection.on("Create", function (amount, hints) {
         ul.empty();
 
         hints.forEach(function (hint) {
-            ul.append("<a class=\"dropdown-item\" href=\"javascript:void(0)\">Ronde "+ hint.attempt.id +" vroeg om een hint.</a>");
+            ul.append("<a class=\"dropdown-item\" href=\"javascript:void(0)\">Ronde " + hint.attempt.id + " vroeg om een hint met id " + hint.id + "</a>");
         });
-        
+
     } else {
         hintDiv.classList.remove("notification")
     }
