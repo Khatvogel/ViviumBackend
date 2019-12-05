@@ -9,7 +9,8 @@ namespace Backend.Entities
         public int Score { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
+        
+        public virtual List<Hint> Hints { get; set; }
         public virtual List<AttemptDevice> AttemptDevices { get; set; }
     }
 }

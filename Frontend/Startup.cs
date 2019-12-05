@@ -4,13 +4,17 @@ using Backend.Interfaces.Firebase;
 using Backend.Interfaces.Repositories;
 using Backend.Repository;
 using Backend.Repository.Firebase;
+using Frontend.API;
+using Frontend.Services.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace Frontend
 {
@@ -32,6 +36,19 @@ namespace Frontend
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.AllowAnyMethod().AllowAnyHeader()
+                        .WithOrigins("http://localhost:5001")
+                        .AllowCredentials();
+                }));
+            services.AddSignalR().AddNewtonsoftJsonProtocol(
+                p =>
+                {
+                    p.PayloadSerializerSettings.ReferenceLoopHandling =
+                        ReferenceLoopHandling.Ignore;
+                });
             services.AddRazorPages();
             services.AddControllers();
             services.AddMvc().AddNewtonsoftJson(x =>
@@ -41,12 +58,14 @@ namespace Frontend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Vivium API", Version = "v1"});
             });
-            services.AddHttpClient<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
+
+            services.AddScoped<IHintRepository, HintRepository>();
             services.AddScoped<IDeviceRepository, DeviceRepository>();
             services.AddScoped<IAttemptRepository, AttemptRepository>();
-            services.AddScoped<IAttemptDeviceRepository, AttemptDeviceRepository>();
             services.AddScoped<IGameSequenceRepository, GameSequenceRepository>();
+            services.AddScoped<IAttemptDeviceRepository, AttemptDeviceRepository>();
             services.AddScoped<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
+            services.AddHttpClient<IFireBaseDeviceRepository, FireBaseDeviceRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,10 +94,12 @@ namespace Frontend
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
 
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<HintsHub>("/hintsHub");
             });
         }
     }
