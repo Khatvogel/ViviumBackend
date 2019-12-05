@@ -16,26 +16,26 @@ namespace Frontend
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-                try
-                {
-                    var applicationDbContext = services.GetRequiredService<ApplicationDbContext>();
-                    applicationDbContext.Database.Migrate();
-                    ApplicationDbSeed.SeedAsync(applicationDbContext)
-                        .Wait();
-                }
-                catch (Exception ex)
-                {
-                    var logger = loggerFactory.CreateLogger<Program>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
-            }
-
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
+//            using (var scope = host.Services.CreateScope())
+//            {
+//                var services = scope.ServiceProvider;
+//                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+//                try
+//                {
+//                    var applicationDbContext = services.GetRequiredService<ApplicationDbContext>();
+//                    applicationDbContext.Database.Migrate();
+//                    ApplicationDbSeed.SeedAsync(applicationDbContext)
+//                        .Wait();
+//                }
+//                catch (Exception ex)
+//                {
+//                    var logger = loggerFactory.CreateLogger<Program>();
+//                    logger.LogError(ex, "An error occurred seeding the DB.");
+//                }
+//            }
+//
+//            host.Run();
         }
 
 

@@ -1,0 +1,9 @@
+{
+ "scripts": {
+  "create:api": "rm -rf js/api && openapi-generator generate -i https://vivium.azurewebsites.net/swagger/v1/swagger.json -g javascript -o js/api"
+ },
+ "dependencies": {
+  "@openapitools/openapi-generator-cli": "^1.0.8-4.2.2",
+  "sortablejs": "^1.10.1"
+ }
+}

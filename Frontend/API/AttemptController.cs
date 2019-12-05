@@ -29,6 +29,13 @@ namespace Frontend.API
         {
             return Ok(JsonHelper.FixCycle(await _attemptRepository.GetListAsync()));
         }
+        
+        [HttpGet]
+        [Route("current")]
+        public async Task<IActionResult> Current()
+        {
+            return Ok(JsonHelper.FixCycle(await _attemptRepository.GetLastAsync()));
+        }
 
         [HttpGet]
         [Route("start")]

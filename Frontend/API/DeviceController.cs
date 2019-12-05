@@ -33,6 +33,21 @@ namespace Frontend.API
             return Ok(JsonHelper.FixCycle(result));
         }
 
+        [HttpGet]
+        [Route("status")]
+        public async Task<IActionResult> Status(string macAddress, bool enabled)
+        {
+            var device = await _deviceRepository.GetAsync(x => x.MacAddress == macAddress);
+            if (device == null || device.Id < 1)
+            {
+                return NoContent();
+            }
+
+            device.Enabled = enabled;
+            await _deviceRepository.UpdateAsync(device);
+            return Ok(JsonHelper.FixCycle(device));
+        }
+
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register(Device device)
