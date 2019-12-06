@@ -8,7 +8,7 @@ function hintOnClick(data) {
 }
 
 $('#hint-answer-modal').on('shown.bs.modal', function () {
-    $('#HintDto_Description').focus()
+    $('#Hint_Description').focus()
 });
 
 $('.modal').on('hidden.bs.modal', function () {
