@@ -42,20 +42,5 @@ namespace Frontend.API
 
             return Ok("Je hebt om een hint gevraagd. Even geduld a.u.b.");
         }
-
-        [HttpPost]
-        [Route("save")]
-        public async Task<IActionResult> Save([FromForm]Hint model)
-        {
-            if (string.IsNullOrEmpty(model.Description)) return Problem("No description");
-            
-            var hint = await _hintRepository.GetAsync(x => x.Id == model.Id);
-            hint.Description = model.Description;
-            hint.Processed = true;
-            
-            await _hintRepository.UpdateAsync(hint);
-            
-            return Redirect("Dashboard");
-        }
     }
 }
