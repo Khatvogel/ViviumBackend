@@ -1,6 +1,6 @@
 ﻿@page
 @model Frontend.Areas.Dashboard.Pages.IndexModel
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <div class="content">
 <div class="container-fluid">
@@ -481,18 +481,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-                <form id="hint-form">
-                    <input id="hint-id" type="hidden" name="id"/>
-                    <label for="hint-description" class="col-form-label">Antwoord:</label>
+                <form method="post">
+                    <input type="hidden" name="Hint.Id">
+                    <label asp-for="Hint.Description" class="col-form-label">Antwoord:</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" style="color: black" name="description" id="hint-description"/>
+                        <input asp-for="Hint.Description" style="color: black" type="text" class="form-control">
                     </div>
+                    <button class="btn btn-success pull-right">Verstuur</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuleer</button>
-                <button id="send-hint-button" type="submit" class="btn btn-success" data-dismiss="modal">Verstuur</button>
             </div>
         </div>
     </div>

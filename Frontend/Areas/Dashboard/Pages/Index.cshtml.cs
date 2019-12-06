@@ -1,22 +1,25 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Backend.Entities;
 using Backend.Interfaces.Repositories;
-using Frontend.ViewModels;
+using Frontend.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace Frontend.Areas.Dashboard.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly IAttemptRepository _attemptRepository;
+        private readonly IHintRepository _hintRepository;
 
-        public IndexModel(IAttemptRepository attemptRepository)
+        public IndexModel(IAttemptRepository attemptRepository, IHintRepository hintRepository)
         {
             _attemptRepository = attemptRepository;
+            _hintRepository = hintRepository;
         }
+
+        [BindProperty]
+        public HintDto Hint { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -27,6 +30,19 @@ namespace Frontend.Areas.Dashboard.Pages
             ViewData["HintsCount"] = hints.Count > 0 ? hints.Count : (object) null;
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(HintDto hint)
+        {
+            if (!ModelState.IsValid) return Page();
+            
+            var updateHint = await _hintRepository.GetAsync(x => x.Id == hint.Id);
+            updateHint.Description = hint.Description;
+            updateHint.Processed = true;
+            
+            await _hintRepository.UpdateAsync(updateHint);
+
+            return Redirect("~/");
         }
     }
 }
