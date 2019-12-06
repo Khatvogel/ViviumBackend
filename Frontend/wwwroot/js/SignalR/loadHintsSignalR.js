@@ -6,7 +6,6 @@ const connection = new signalR.HubConnectionBuilder()
     .build();
 
 connection.on("Create", function (amount, hints) {
-    console.log(hints);
     let hintDiv = document.getElementById("hints-notification");
     if (amount > 0) {
         hintDiv.classList.add("notification");
@@ -16,7 +15,7 @@ connection.on("Create", function (amount, hints) {
         ul.empty();
 
         hints.forEach(function (hint) {
-            ul.append("<a class=\"dropdown-item\" href=\"javascript:void(0)\">Ronde " + hint.attempt.id + " vroeg om een hint met id " + hint.id + "</a>");
+            ul.append("<a class=\"dropdown-item hint\" onclick=\"hintOnClick(" + hint.id + ")\">Ronde " + hint.attempt.id + " vroeg om een hint met id " + hint.id + "</a>");
         });
 
     } else {

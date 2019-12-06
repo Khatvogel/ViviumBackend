@@ -2,9 +2,12 @@
 using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
+using Frontend.Helpers;
 using Frontend.Services.SignalR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 
 namespace Frontend.API
 {
@@ -32,12 +35,27 @@ namespace Frontend.API
             if (attempt == null) return NotFound();
 
             await _hintRepository.AddAsync(new Hint {Attempt = attempt});
-            
+
             var amount = attempt.Hints.Select(x => !x.Processed).ToList().Count;
 
             await _hintsHub.Clients.All.SendAsync("Create", amount, attempt.Hints);
-            
+
             return Ok("Je hebt om een hint gevraagd. Even geduld a.u.b.");
+        }
+
+        [HttpPost]
+        [Route("save")]
+        public async Task<IActionResult> Save([FromForm]Hint model)
+        {
+            if (string.IsNullOrEmpty(model.Description)) return Problem("No description");
+            
+            var hint = await _hintRepository.GetAsync(x => x.Id == model.Id);
+            hint.Description = model.Description;
+            hint.Processed = true;
+            
+            await _hintRepository.UpdateAsync(hint);
+            
+            return Redirect("Dashboard");
         }
     }
 }

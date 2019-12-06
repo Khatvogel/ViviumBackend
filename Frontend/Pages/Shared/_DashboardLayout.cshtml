@@ -111,7 +111,7 @@
                                 @{
                                     foreach (Hint hint in (IEnumerable) ViewData["Hints"])
                                     {
-                                        <a class="dropdown-item" href="javascript:void(0)">Ronde @hint.Attempt.Id vroeg om een hint.</a>
+                                        <a class="dropdown-item hint" onclick="hintOnClick(@hint.Id)">Ronde @hint.Attempt.Id vroeg om een hint met id @hint.Id</a>
                                     }
                                 }
                             </div>
@@ -394,7 +394,7 @@
     });
 </script>
 <script src="js/SignalR/signalr.min.js"></script>
-<script src="js/SignalR/hint.js"></script>
+<script src="js/SignalR/loadHintsSignalR.js"></script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>

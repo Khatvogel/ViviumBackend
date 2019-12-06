@@ -39,20 +39,19 @@ namespace Frontend
             services.AddCors(options => options.AddPolicy("CorsPolicy",
                 builder =>
                 {
-                    builder.AllowAnyMethod().AllowAnyHeader()
-                        .WithOrigins("http://localhost:5001")
+                    builder.WithOrigins("http://localhost:5001")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
                         .AllowCredentials();
                 }));
-            services.AddSignalR().AddNewtonsoftJsonProtocol(
-                p =>
-                {
-                    p.PayloadSerializerSettings.ReferenceLoopHandling =
-                        ReferenceLoopHandling.Ignore;
-                });
+            
             services.AddRazorPages();
             services.AddControllers();
-            services.AddMvc().AddNewtonsoftJson(x =>
-                x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddSignalR().AddNewtonsoftJsonProtocol(p =>
+            {
+                p.PayloadSerializerSettings.ReferenceLoopHandling =
+                    ReferenceLoopHandling.Ignore;
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -93,8 +92,7 @@ namespace Frontend
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
-
-            app.UseCors("CorsPolicy");
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

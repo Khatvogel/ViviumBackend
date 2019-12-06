@@ -1,10 +1,6 @@
 ﻿@page
 @model Frontend.Areas.Dashboard.Pages.IndexModel
-@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 
-@{
-    Layout = Configuration.GetSection("LayoutFiles")["Dashboard"];
-}
 
 <div class="content">
 <div class="container-fluid">
@@ -451,12 +447,14 @@
 </div>
 </div>
 
-<!-- Modal -->
+
 <div class="modal fade" id="start-new-game-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><b>Healthcare+ Escape Room</b></h5>
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <b>Healthcare+ Escape Room</b>
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -472,7 +470,36 @@
     </div>
 </div>
 
+<div class="modal fade" id="hint-answer-modal" tabindex="-1" role="dialog" aria-labelledby="hintModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <b id="label-hint-id"></b>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="hint-form">
+                    <input id="hint-id" type="hidden" name="id"/>
+                    <label for="hint-description" class="col-form-label">Antwoord:</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" style="color: black" name="description" id="hint-description"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuleer</button>
+                <button id="send-hint-button" type="submit" class="btn btn-success" data-dismiss="modal">Verstuur</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
     <script src="material-dashboard/assets/js/dashboard-index/dashboard-timer.js"></script>
+    <script src="material-dashboard/assets/js/dashboard-index/dashboard-hint.js"></script>
 }

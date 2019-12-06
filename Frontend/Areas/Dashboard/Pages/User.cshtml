@@ -1,9 +1,5 @@
 ﻿@page
 @model Frontend.Areas.Dashboard.Pages.UserModel
-@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
-@{
-    Layout = Configuration.GetSection("LayoutFiles")["Dashboard"];
-}
 
 <div class="content">
     <div class="container-fluid">
