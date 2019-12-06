@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
 using Frontend.ViewModels;
@@ -10,21 +11,21 @@ namespace Frontend.Areas.Dashboard.Pages
 {
     public class IndexModel : PageModel
     {
-
         private readonly IAttemptRepository _attemptRepository;
 
         public IndexModel(IAttemptRepository attemptRepository)
         {
             _attemptRepository = attemptRepository;
         }
-        
+
         public async Task<IActionResult> OnGetAsync()
         {
             var attempt = await _attemptRepository.GetLastAsync();
-            ViewData["Hints"] = attempt.Hints;
-            ViewData["ClassName"] = attempt.Hints.Count > 0 ? "notification" : string.Empty;
-            ViewData["HintsCount"] = attempt.Hints.Count > 0 ? attempt.Hints.Count : (object) null;
-            
+            var hints = attempt.Hints.Where(x => !x.Processed).ToList();
+            ViewData["Hints"] = hints;
+            ViewData["ClassName"] = hints.Count > 0 ? "notification" : string.Empty;
+            ViewData["HintsCount"] = hints.Count > 0 ? hints.Count : (object) null;
+
             return Page();
         }
     }
