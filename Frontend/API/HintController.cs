@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Backend.Entities;
 using Backend.Interfaces.Repositories;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Frontend.Helpers;
 using Frontend.Services.SignalR;
 using Microsoft.AspNetCore.Cors;
@@ -34,13 +35,26 @@ namespace Frontend.API
             var attempt = await _repository.GetLastAsync();
             if (attempt == null) return NotFound();
 
-            await _hintRepository.AddAsync(new Hint {Attempt = attempt});
+            var hint = await _hintRepository.AddAsync(new Hint {Attempt = attempt});
 
-            var amount = attempt.Hints.Select(x => !x.Processed).ToList().Count;
+            var amount = attempt.Hints.Where(x => !x.Processed).ToList().Count;
 
             await _hintsHub.Clients.All.SendAsync("Create", amount, attempt.Hints);
 
-            return Ok("Je hebt om een hint gevraagd. Even geduld a.u.b.");
+            return Ok(JsonHelper.FixCycle(hint.Id));
+        }
+
+        [HttpGet]
+        [Route("answer")]
+        public async Task<IActionResult> GetAnswer(int id)
+        {
+            if (id < 1) return NotFound("No id given.");
+
+            var hint = await _hintRepository.GetAsync(h => h.Id == id);
+
+            if (hint == null) return NotFound("Hint with given id doesn't exist.");
+
+            return Ok(JsonHelper.FixCycle(hint));
         }
     }
 }
