@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Backend.Entities;
 using Backend.Interfaces.Repositories;
 using Frontend.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +23,17 @@ namespace Frontend.Areas.Dashboard.Pages
         [BindProperty]
         public HintDto Hint { get; set; }
 
+        private List<Hint> _hints;
+
         public async Task<IActionResult> OnGetAsync()
         {
             var attempt = await _attemptRepository.GetLastAsync();
-            var hints = attempt.Hints.Where(x => !x.Processed).ToList();
-            ViewData["Hints"] = hints;
-            ViewData["ClassName"] = hints.Count > 0 ? "notification" : string.Empty;
-            ViewData["HintsCount"] = hints.Count > 0 ? hints.Count : (object) null;
+
+            _hints = attempt == null ? new List<Hint>() : attempt.Hints.Where(x => !x.Processed).ToList();
+
+            ViewData["Hints"] = _hints;
+            ViewData["ClassName"] = _hints.Count > 0 ? "notification" : string.Empty;
+            ViewData["HintsCount"] = _hints.Count > 0 ? _hints.Count : (object) null;
 
             return Page();
         }

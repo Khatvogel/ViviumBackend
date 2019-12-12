@@ -54,7 +54,7 @@ namespace Frontend.API
 
             if (hint == null) return NotFound("Hint with given id doesn't exist.");
 
-            return Ok(JsonHelper.FixCycle(hint));
+            return Ok(JsonHelper.FixCycle(hint.Description));
         }
     }
 }
