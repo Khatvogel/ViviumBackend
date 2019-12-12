@@ -4,17 +4,19 @@ using Backend.Interfaces.Firebase;
 using Backend.Interfaces.Repositories;
 using Backend.Repository;
 using Backend.Repository.Firebase;
-using Frontend.API;
 using Frontend.Services.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using Microsoft.AspNetCore.Http;
+using React.AspNet;
 
 namespace Frontend
 {
@@ -45,6 +47,11 @@ namespace Frontend
                         .AllowCredentials();
                 }));
             
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+                .AddChakraCore();
+            
             services.AddRazorPages();
             services.AddControllers();
             services.AddSignalR().AddNewtonsoftJsonProtocol(p =>
@@ -52,6 +59,7 @@ namespace Frontend
                 p.PayloadSerializerSettings.ReferenceLoopHandling =
                     ReferenceLoopHandling.Ignore;
             });
+            
 
             services.AddSwaggerGen(c =>
             {
@@ -82,7 +90,20 @@ namespace Frontend
                 app.UseHsts();
             }
 
-//            app.UseHttpsRedirection();
+
+            // Initialise ReactJS.NET. Must be before static files.
+            app.UseReact(config =>
+            {
+                config.AddScript("~/material-dashboard/assets/js/dashboard-devices/devices.js");
+                
+                // If you use an external build too (for example, Babel, Webpack,
+                // Browserify or Gulp), you can improve performance by disabling
+                // ReactJS.NET's version of Babel and loading the pre-transpiled
+                // scripts. Example:
+                //config
+                //  .SetLoadBabel(false)
+                //  .AddScriptWithoutTransform("~/js/bundle.server.js");
+            });
             app.UseStaticFiles();
 
             app.UseRouting();

@@ -1,0 +1,16 @@
+﻿@page
+@using React.AspNet
+
+<div className="App">
+    <header className="App-header">
+        <h1>Vivium Devices</h1>
+        <div id="content"></div>
+        @Html.React("Device");
+    </header>
+</div>
+
+@section Scripts{
+    <script src="@Url.Content("~/material-dashboard/assets/js/dashboard-devices/devices.js")"></script>
+}
+
+@Html.ReactInitJavaScript();

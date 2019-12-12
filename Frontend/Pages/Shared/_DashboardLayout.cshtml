@@ -42,8 +42,8 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item @Html.IsSelected("/Devices") ">
-                    <a class="nav-link" asp-area="Dashboard" asp-page="/Devices">
+                <li class="nav-item @Html.IsSelected("/Device") ">
+                    <a class="nav-link" asp-area="Dashboard" asp-page="/Device">
                         <i class="material-icons">devices</i>
                         <p>Connected devices</p>
                     </a>
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="main-panel">
-        
+
         @RenderBody()
         <footer class="footer">
             <div class="container-fluid">
@@ -329,6 +329,8 @@
         md.initDashboardPageCharts();
     });
 </script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.0/umd/react.development.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.0/umd/react-dom.development.js"></script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>
