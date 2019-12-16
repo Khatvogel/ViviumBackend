@@ -22,6 +22,7 @@ class Quiz extends Component {
   };
 
   registerDevice() {
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     axios.post(`https://vivium.azurewebsites.net/devices/register`, { game }).then(res => {
       console.log(res);
       console.log(res.data);
