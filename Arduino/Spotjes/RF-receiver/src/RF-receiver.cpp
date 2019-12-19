@@ -15,7 +15,7 @@ RCSwitch mySwitch = RCSwitch();
 
 void setup() {
   Serial.begin(9600);
-  mySwitch.enableReceive(2);  // Receiver on interrupt 0 => that is pin #2
+  mySwitch.enableReceive(D2);  // Receiver on interrupt 0 => that is pin #2
 }
 
 void loop() {
