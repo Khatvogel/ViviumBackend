@@ -1,1 +1,1 @@
-* [Leerdoel 1](Leerdoel 1 STARR.md)
+* [Leerdoel 1](Leerdoel1STARR.md)
