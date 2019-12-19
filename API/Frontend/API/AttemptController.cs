@@ -34,15 +34,17 @@ namespace Frontend.API
         [Route("status")]
         public async Task<IActionResult> Status()
         {
-            var devicesToFinish = await _deviceRepository.GetListAsync(x => x.Enabled);
+            var devicesToFinishDev = await _deviceRepository.GetListAsync(x => x.Enabled);
             var lastAttempt = await _attemptRepository.GetLastAsync();
             if (lastAttempt?.AttemptDevices == null)
             {
                 return NoContent();
             }
 
-            var finishedPercentage = lastAttempt.AttemptDevices.Count(x => x.FinishedAt != null) / devicesToFinish.Count * 100;
-            return Ok(new {finishedPercentage});
+            var devicesToFinish = devicesToFinishDev.Count;
+            var finishedDevices = lastAttempt.AttemptDevices.Count(x => x.FinishedAt != null);
+            var finishedPercentage = Convert.ToDouble(finishedDevices) / Convert.ToDouble(devicesToFinish) * 100;
+            return Ok(new {finishedPercentage = Convert.ToInt16(finishedPercentage), finishedDevices, devicesToFinish});
         }
         
         [HttpGet]
