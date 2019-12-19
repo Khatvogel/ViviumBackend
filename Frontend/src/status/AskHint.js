@@ -53,7 +53,7 @@ class AskHint extends Component {
     return (
       <div>
         <button type="button" onClick={this.requestAnswer} className="btn start-button">
-          Ask a Hint
+          Get a Hint!
         </button>
         {this.state.show ? (
           <PopupHint show={this.state.show} handleClose={this.hideModal}>

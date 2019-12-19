@@ -1,3 +1,16 @@
 .Timer {
-  font-size: 70px;
+  margin-top: 100px;
+}
+
+.timer-countdown {
+  font-size: 60px;
+}
+
+.timer-labels {
+  margin-bottom: 30px;
+}
+
+.timer-labels span {
+  padding: 10px;
+  font-weight: bold;
 }

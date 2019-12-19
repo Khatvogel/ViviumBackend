@@ -22,9 +22,11 @@ class StartPage extends Component {
         {this.state.show ? (
           <Status />
         ) : (
-          <button onClick={this.startGame} type="button" className="btn start-button mt-10">
-            Start the Game{' '}
-          </button>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <button onClick={this.startGame} type="button" className="btn start-button mt-10">
+              Start the Game{' '}
+            </button>
+          </div>
         )}
       </div>
     );

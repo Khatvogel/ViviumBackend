@@ -39,18 +39,32 @@ class Timer extends Component {
     // }
     console.log(this.state.data, 'changed');
     return (
-      <div className="Timer">
-        <Countdown
-          date={Date.now() + 3600000}
-          autoStart={this.state.timerStart}
-          intervalDelay={0}
-          precision={3}
-          renderer={renderer}
-        />
-      </div>
+      <>
+        <div className="Timer">
+          <div className="timer-countdown">
+            <Countdown
+              date={Date.now() + 3600000}
+              autoStart={this.state.timerStart}
+              intervalDelay={0}
+              precision={2}
+              renderer={renderer}
+            />
+          </div>
+        </div>
+
+        <div className="timer-labels">
+          <span>Minutes</span>
+          <span>Seconds</span>
+          <span>Milliseconds</span>
+        </div>
+      </>
     );
   }
 }
+
+const pad2 = number => {
+  return (number < 10 ? '0' : '') + number;
+};
 
 const renderer = ({ minutes, seconds, milliseconds, completed }) => {
   if (completed) {
@@ -60,7 +74,7 @@ const renderer = ({ minutes, seconds, milliseconds, completed }) => {
     // Render a countdown
     return (
       <span>
-        {zeroPad(minutes)}:{zeroPad(seconds)}:{zeroPad(milliseconds)}
+        {zeroPad(minutes)}:{zeroPad(seconds)}:{pad2(milliseconds / 10)}
       </span>
     );
   }

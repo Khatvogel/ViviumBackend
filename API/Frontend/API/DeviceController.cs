@@ -30,7 +30,7 @@ namespace Frontend.API
         public async Task<IActionResult> Get()
         {
             var result = await _deviceRepository.GetListAsync();
-            return Ok(JsonHelper.FixCycle(result));
+            return Ok(JsonHelper.FixCycle(result.OrderBy(x => x.Order)));
         }
 
         [HttpGet]
@@ -44,6 +44,21 @@ namespace Frontend.API
             }
 
             device.Enabled = enabled;
+            await _deviceRepository.UpdateAsync(device);
+            return Ok(JsonHelper.FixCycle(device));
+        }
+        
+        [HttpGet]
+        [Route("position")]
+        public async Task<IActionResult> Position(string macAddress, int newPosition)
+        {
+            var device = await _deviceRepository.GetAsync(x => x.MacAddress == macAddress);
+            if (device == null || device.Id < 1)
+            {
+                return NoContent();
+            }
+
+            device.Order = newPosition;
             await _deviceRepository.UpdateAsync(device);
             return Ok(JsonHelper.FixCycle(device));
         }

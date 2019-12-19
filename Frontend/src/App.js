@@ -11,17 +11,17 @@ function App() {
     <div className="App">
       <Router>
         <div>
-          <nav className="navbar navbar-dark bg-dark">
-            <Link className="nav-link" to="/status">
-              Status
-            </Link>
-            <Link className="nav-link" to="/devices">
-              Devices
-            </Link>
-            <Link className="nav-link" to="/quiz">
-              Quiz
-            </Link>
-          </nav>
+          {/*<nav className="navbar navbar-dark bg-dark">*/}
+          {/*  <Link className="nav-link" to="/status">*/}
+          {/*    Status*/}
+          {/*  </Link>*/}
+          {/*  <Link className="nav-link" to="/devices">*/}
+          {/*    Devices*/}
+          {/*  </Link>*/}
+          {/*  <Link className="nav-link" to="/quiz">*/}
+          {/*    Quiz*/}
+          {/*  </Link>*/}
+          {/*</nav>*/}
           <Switch>
             <Route path="/status" component={StartPage} />
 

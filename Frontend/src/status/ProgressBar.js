@@ -31,13 +31,13 @@ class ProgressBar extends Component {
 
     return (
       <div className="progressbar-vivium">
-        <ProgressBarBootstrap
-          now={this.state.percentage}
-          label={`${this.state.percentage}%`}
-          striped
-          variant="primary"
-          animated={true}
-        />
+        <ProgressBarBootstrap now={this.state.percentage} variant="primary" animated={true} />
+
+        <div style={{ marginTop: 10 }}>
+          <span>
+            You guys are at <strong>{this.state.percentage}</strong> percent...
+          </span>
+        </div>
       </div>
     );
   }
