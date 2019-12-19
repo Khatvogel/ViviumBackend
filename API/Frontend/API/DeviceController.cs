@@ -110,7 +110,7 @@ namespace Frontend.API
             await _attemptDeviceRepository.UpdateAsync(attemptDevice);
 
             // Fetch all devices on the same order that this device is trying to finish
-            var devicesInOrder = (await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order))
+            var devicesInOrder = (await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order && x.Enabled))
                 .Select(x => x.Id).ToList();
 
             // Get all the devices that are finished on this order in this attempt
@@ -121,7 +121,7 @@ namespace Frontend.API
             // Everything is finished on this order, either finish the game or start the next order
             if (devicesInOrder.Count == attemptDevicesFinished.Count)
             {
-                var devices = await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order + 1);
+                var devices = await _deviceRepository.GetListAsync(x => x.Order == currentDevice.Order + 1 && x.Enabled);
 
                 // If there are no devices in the next order, meaning there are no devices to be completed, finish the game
                 if (devices.Count == 0)

@@ -29,6 +29,21 @@ namespace Frontend.API
         {
             return Ok(JsonHelper.FixCycle(await _attemptRepository.GetListAsync()));
         }
+
+        [HttpGet]
+        [Route("status")]
+        public async Task<IActionResult> Status()
+        {
+            var devicesToFinish = await _deviceRepository.GetListAsync(x => x.Enabled);
+            var lastAttempt = await _attemptRepository.GetLastAsync();
+            if (lastAttempt?.AttemptDevices == null)
+            {
+                return NoContent();
+            }
+
+            var finishedPercentage = lastAttempt.AttemptDevices.Count(x => x.FinishedAt != null) / devicesToFinish.Count * 100;
+            return Ok(new {finishedPercentage});
+        }
         
         [HttpGet]
         [Route("current")]
@@ -42,7 +57,7 @@ namespace Frontend.API
         public async Task<IActionResult> Start()
         {
             var attempt = await _attemptRepository.AddAsync(new Attempt {StartDate = DateTime.Now});
-            var devices = await _deviceRepository.GetListAsync();
+            var devices = await _deviceRepository.GetListAsync(x => x.Enabled);
             if (devices.Count == 0)
             {
                 return NoContent();
