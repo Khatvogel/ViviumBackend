@@ -1,7 +1,7 @@
 Level 1: Build and test an elementary software system and make it available(Software Implement).
 Javascript en werken met databases is een van de taken waar ik me mee bezig ga houden omdat ik daar weinig ervaring mee heb, zullen het basis opdrachten zijn zoals een pagina gebaseerd om javascript. Ik heb dit behaald als ik een webpagina gemaakt in java script die communiceert met de server van het project.
 
-[Leerdoel 1](Leerdoel1STARR.md)
+[Leerdoel 1](../STARRLeerdoel1STARR.md)
 
 Level 2: Set up an acceptance test for a computer system. - Hardware Interfacing Analyse.
 Ik heb inmiddels een beetje ervaring gekregen met hardware en het feit dat ik ook testing aan het volgen is maakt dit leerdoel goed te doen. Ik heb dit behaald als een test heb gemaakt dat voor 80% van een test critiria boven wat verwacht wordt behaal. 
