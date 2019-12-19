@@ -1,26 +1,27 @@
 import ProgressBarBootstrap from 'react-bootstrap/ProgressBar';
 import React, { Component } from 'react';
 import axios from 'axios';
+import './ProgressBar.css';
 
 class ProgressBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      percentage: 0
+      percentage: 90
     };
   }
 
-  componentDidMount() {
-    axios.get('https://vivium.azurewebsites.net/attempts/status').then(res => {
-      console.log(res);
-      this.setState({
-        percentage: JSON.stringify(res.data.finishedPercentage)
-      });
-      console.log(JSON.stringify(this.state.percentage));
-    });
-    console.log(this.state.percentage);
-  }
+  // componentDidMount() {
+  //   axios.get('https://vivium.azurewebsites.net/attempts/status').then(res => {
+  //     console.log(res);
+  //     this.setState({
+  //       percentage: JSON.stringify(res.data.finishedPercentage)
+  //     });
+  //     console.log(JSON.stringify(this.state.percentage));
+  //   });
+  //   console.log(this.state.percentage);
+  // }
 
   render() {
     const { percentage } = this.state;
@@ -29,13 +30,14 @@ class ProgressBar extends Component {
     }
 
     return (
-      <div>
+      <div className="progressbar-vivium">
         <h2>Escape Room Progression</h2>
         <ProgressBarBootstrap
           now={this.state.percentage}
           label={`${this.state.percentage}%`}
           striped
-          variant="success"
+          variant="primary"
+          animated={true}
         />
       </div>
     );

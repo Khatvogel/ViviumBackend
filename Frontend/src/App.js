@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Router>
         <div>
-          <nav className="navbar-vivium">
+          <nav className="navbar navbar-dark bg-dark">
             <Link className="nav-link" exact to="/status">
               Status
             </Link>
