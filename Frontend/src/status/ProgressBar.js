@@ -8,20 +8,20 @@ class ProgressBar extends Component {
     super(props);
     this.state = {
       data: [],
-      percentage: 90
+      percentage: 0
     };
   }
 
-  // componentDidMount() {
-  //   axios.get('https://vivium.azurewebsites.net/attempts/status').then(res => {
-  //     console.log(res);
-  //     this.setState({
-  //       percentage: JSON.stringify(res.data.finishedPercentage)
-  //     });
-  //     console.log(JSON.stringify(this.state.percentage));
-  //   });
-  //   console.log(this.state.percentage);
-  // }
+  componentDidMount() {
+    axios.get('https://vivium.azurewebsites.net/attempts/status').then(res => {
+      console.log(res);
+      this.setState({
+        percentage: JSON.stringify(res.data.finishedPercentage)
+      });
+      console.log(JSON.stringify(this.state.percentage));
+    });
+    console.log(this.state.percentage);
+  }
 
   render() {
     const { percentage } = this.state;

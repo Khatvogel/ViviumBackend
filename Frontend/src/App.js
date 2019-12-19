@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Device from './Devices';
-import Status from './status/Status';
 import Quiz from './quiz/Quiz';
+import StartPage from './status/StartPage';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
             </Link>
           </nav>
           <Switch>
-            <Route path="/status" component={Status} />
+            <Route path="/status" component={StartPage} />
 
             <Route path="/devices" component={Device} />
 
