@@ -16,3 +16,13 @@
 .App-link {
   color: #61dafb;
 }
+
+.navbar-vivium {
+  background-color: #282c34;
+  color: white;
+  display: inline-block;
+}
+
+.navbar-vivium li {
+  display: inline;
+}
