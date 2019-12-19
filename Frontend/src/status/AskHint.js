@@ -52,7 +52,7 @@ class AskHint extends Component {
   render() {
     return (
       <div>
-        <button type="button" onClick={this.requestAnswer} className="btn btn-info mt-2">
+        <button type="button" onClick={this.requestAnswer} className="btn start-button">
           Ask a Hint
         </button>
         {this.state.show ? (

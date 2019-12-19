@@ -12,7 +12,7 @@ function App() {
       <Router>
         <div>
           <nav className="navbar navbar-dark bg-dark">
-            <Link className="nav-link" exact to="/status">
+            <Link className="nav-link" to="/status">
               Status
             </Link>
             <Link className="nav-link" to="/devices">

@@ -31,7 +31,6 @@ class ProgressBar extends Component {
 
     return (
       <div className="progressbar-vivium">
-        <h2>Escape Room Progression</h2>
         <ProgressBarBootstrap
           now={this.state.percentage}
           label={`${this.state.percentage}%`}

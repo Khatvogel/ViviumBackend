@@ -1,0 +1,5 @@
+Deze STARR gaat over het volgende [leerdoel](../Leerdoelen/JordyWijman.md)
+
+Voor deze STARR heb ik ervoor gekozen om een goede workflow op te zetten in Github waardoor wij gemakkelijk de status van het project kunnen bijhouden. Wij maakte eerst gebruik van Trello, maar omdat dit dus helemaal los staat van de code merkte we dat dit toch niet gebruikt werd. Toen ging ik kijken naar de mogelijkheden binnen Github (dat wij gebruiken voor source control). Toen vond ik na research doen, dat je projects binnen Github kan opzetten met daaraan Milestones gelinkt. 
+
+Wij hebben met het team de afspraak gemaakt dat voor elke taak die er moet gebeuren, een issue aangemaakt wordt in het project. Wanneer deze taak dan klaar is moet er een pull request aangemaakt worden met het issue gelinkt. Als dit NIET gebeurt, wordt hij niet gemerged. Als het issue dan vervolgens wel gemerged is met het issue hieraan gelinkt, zal hij automatisch gesloten worden en zal de milestone ook aangepast worden.
