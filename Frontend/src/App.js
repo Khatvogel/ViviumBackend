@@ -4,24 +4,33 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Device from './Devices';
 import Status from './status/Status';
 import Quiz from './quiz/Quiz';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      {/*<header className="App-header">*/}
-      {/*<h1>Vivium Devices</h1>*/}
-      {/*/!*<Device />*!/*/}
-      {/*</header>*/}
+      <Router>
+        <div>
+          <nav className="navbar navbar-dark bg-dark">
+            <Link className="nav-link" exact to="/status">
+              Status
+            </Link>
+            <Link className="nav-link" to="/devices">
+              Devices
+            </Link>
+            <Link className="nav-link" to="/quiz">
+              Quiz
+            </Link>
+          </nav>
+          <Switch>
+            <Route path="/status" component={Status} />
 
-      <header className="App-header">
-        <h1>Status</h1>
-        <Status />
-      </header>
+            <Route path="/devices" component={Device} />
 
-      {/*<header className="App-header">*/}
-      {/*<h1>Quiz</h1>*/}
-      {/*<Quiz />*/}
-      {/*</header>*/}
+            <Route path="/quiz" component={Quiz} />
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
