@@ -14,18 +14,17 @@ class ProgressBar extends Component {
 
   componentDidMount() {
     this.updateStatus();
+    setInterval(() => this.updateStatus(), 5000);
   }
 
   updateStatus() {
-    setInterval(() => {
-      axios.get('https://vivium.azurewebsites.net/attempts/status').then(res => {
-        console.log(res);
-        this.setState({
-          percentage: JSON.stringify(res.data.finishedPercentage)
-        });
-        console.log(JSON.stringify(this.state.percentage));
+    axios.get('https://vivium.azurewebsites.net/attempts/status').then(res => {
+      console.log(res);
+      this.setState({
+        percentage: JSON.stringify(res.data.finishedPercentage)
       });
-    }, 5000);
+      console.log(JSON.stringify(this.state.percentage));
+    });
   }
 
   render() {
