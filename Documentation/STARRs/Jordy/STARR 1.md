@@ -1,4 +1,4 @@
-Deze STARR gaat over het volgende [leerdoel](../Leerdoelen/JordyWijman.md)
+Deze STARR gaat over het volgende [leerdoel](../../Leerdoelen/JordyWijman.md)
 
 Voor deze STARR heb ik ervoor gekozen om een goede workflow op te zetten in Github waardoor wij gemakkelijk de status van het project kunnen bijhouden. Wij maakte eerst gebruik van Trello, maar omdat dit dus helemaal los staat van de code merkte we dat dit toch niet gebruikt werd. Toen ging ik kijken naar de mogelijkheden binnen Github (dat wij gebruiken voor source control). Toen vond ik na research doen, dat je projects binnen Github kan opzetten met daaraan Milestones gelinkt. 
 
