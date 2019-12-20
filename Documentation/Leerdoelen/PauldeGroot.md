@@ -1,6 +1,8 @@
 Paul
 Level 1: Describe the architecture of a computer system (Hardware Interfacing)
-In blok 2 maak ik de architectuur van de spelletjes duidelijk door middel van een stroomschema. In blok 1 bij Embedded Systems is het mij niet gelukt om dit op de juiste manier te doen. Ook wist ik niet wat voor programma ik zou kunnen gebruiken of hoe ik het sneller zou kunnen doen.
+In blok 2 maak ik de architectuur van de spelletjes duidelijk door middel van een stroomschema. 
+In blok 1 bij Embedded Systems is het mij niet gelukt om dit op de juiste manier te doen. 
+Ook wist ik niet wat voor programma ik zou kunnen gebruiken of hoe ik het sneller zou kunnen doen.
 
 Level 2: Carry out a requirement analysis for a software system with various stakeholders, taking into account the quality characteristics (Software)
 In blok 2 zal ik de functionele requirements van het statusscherm verifiëren met de stakeholders (Vivium en de studenten van de Healthcare Professional Plus Minor).
